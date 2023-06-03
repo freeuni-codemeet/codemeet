@@ -1,7 +1,5 @@
 # codemeet
 
-<hr>
-
 ### Setup
 - Create .env file in root folder with this variables
 ```
