@@ -11,6 +11,7 @@ services:
       context: .
       args:
         PORT: ${CORE_API_PORT}
+    command: uvicorn backend.src.app.app:app --host ${HOST} --port ${CORE_API_PORT}
     ports:
       - ${CORE_API_PORT}:${CORE_API_PORT}
     links:
