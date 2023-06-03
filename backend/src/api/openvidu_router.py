@@ -1,5 +1,5 @@
 from dependency_injector.wiring import Provide, inject
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends
 
 from backend.src.app.containers import Container
 from backend.src.service.openvidu_service import OpenviduService

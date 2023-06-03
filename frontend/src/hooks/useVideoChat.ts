@@ -31,9 +31,9 @@ const useVideoChat = (): [StreamManager | undefined, Publisher | undefined, Subs
 
         openviduRef.current = new OpenVidu();
 
-        sessionRef.current = openviduRef.current?.initSession(); // setSession(openviduRef.current.initSession());
+        sessionRef.current = openviduRef.current?.initSession();
 
-        const mySession = sessionRef.current; // const mySession = session;
+        const mySession = sessionRef.current;
 
         if (!mySession) {
             throw Error("null session");
