@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const APPLICATION_SERVER_URL = 'http://localhost:5000';
+const APPLICATION_SERVER_URL = 'http://localhost:6969';
 
 const createSession = async () => {
     const response = await axios.post(`${APPLICATION_SERVER_URL}/api/sessions/create`, {
