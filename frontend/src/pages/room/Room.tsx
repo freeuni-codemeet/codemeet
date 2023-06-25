@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import UserVideoComponent from "./UserVideoComponent";
 import useVideoChat from "../../hooks/useVideoChat";
-
+import RustpadApp from "../Rustpad/RustpadApp"
 
 const Room = () => {
     const navigate = useNavigate();
@@ -92,6 +92,9 @@ const Room = () => {
                     </div>
                 </div>
             )}
+            <div>
+                <RustpadApp></RustpadApp>
+            </div>
         </div>
     );
 }
