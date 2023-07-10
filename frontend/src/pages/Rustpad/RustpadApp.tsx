@@ -5,13 +5,13 @@ import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 import languages from "./languages.json";
 import animals from "./animals.json";
 import Rustpad, { UserInfo } from "./rustpad";
-import useHash from "./useHash";
+import { useParams } from 'react-router-dom';
 
 function getWsUri(id: string) {
   return (
     (window.location.origin.startsWith("https") ? "wss://" : "ws://") +
     window.location.host +
-    `/api/socket/${id}`
+    `/room/${id}`
   );
 }
 
@@ -32,9 +32,8 @@ const RustpadApp = () => {
   const [name, setName] = useStorage("name", generateName);
   const [hue, setHue] = useStorage("hue", generateHue);
   const [editor, setEditor] = useState<editor.IStandaloneCodeEditor>();
-  const [darkMode, setDarkMode] = useStorage("darkMode", () => false);
   const rustpad = useRef<Rustpad>();
-  const id = useHash();
+  const { sessionId } = useParams();
 
   useEffect(() => {
     if (editor?.getModel()) {
@@ -42,7 +41,7 @@ const RustpadApp = () => {
       model.setValue("");
       model.setEOL(0); // LF
       rustpad.current = new Rustpad({
-        uri: getWsUri(id),
+        uri: getWsUri(sessionId || ""),
         editor,
         onConnected: () => setConnection("connected"),
         onDisconnected: () => setConnection("disconnected"),
@@ -62,7 +61,7 @@ const RustpadApp = () => {
         rustpad.current = undefined;
       };
     }
-  }, [id, editor, setUsers]);
+  }, [sessionId, editor, setUsers]);
 
   useEffect(() => {
     if (connection === "connected") {
@@ -87,13 +86,13 @@ const RustpadApp = () => {
         flexDirection: "column",
         height: "100vh",
         overflow: "hidden",
-        backgroundColor: darkMode ? "#1e1e1e" : "white",
-        color: darkMode ? "#cbcaca" : "inherit",
+        backgroundColor: "#1e1e1e",
+        color: "#cbcaca",
       }}
     >
       <div style={{ flex: 1, minHeight: 0 }}>
         <Editor
-          theme={darkMode ? "vs-dark" : "vs"}
+          theme={"vs-dark"}
           language={language}
           options={{
             automaticLayout: true,
