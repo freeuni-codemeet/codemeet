@@ -386,8 +386,8 @@ class Rustpad {
       const contentLength = unicodeLength(content);
       let offset = 0;
 
-      let operation = OpSeq.new();
-      operation.retain(contentLength);
+      let operation = new OpSeq();
+      //operation.retain(contentLength);
       event.changes.sort((a, b) => b.rangeOffset - a.rangeOffset);
       for (const change of event.changes) {
         // The following dance is necessary to convert from UTF-16 indices (evil
@@ -400,16 +400,16 @@ class Rustpad {
         );
         const restLength =
           contentLength + offset - initialLength - deletedLength;
-        const changeOp = OpSeq.new();
-        changeOp.retain(initialLength);
-        changeOp.delete(deletedLength);
-        changeOp.insert(text);
-        changeOp.retain(restLength);
-        operation = operation.compose(changeOp)!;
-        offset += changeOp.target_len() - changeOp.base_len();
+        const changeOp = new OpSeq();
+       // changeOp.retain(initialLength);
+       // changeOp.delete(deletedLength);
+       // changeOp.insert(text);
+       // changeOp.retain(restLength);
+       // operation = operation.compose(changeOp)!;
+       // offset += changeOp.target_len() - changeOp.base_len();
       }
-      this.applyClient(operation);
-      this.lastValue = this.model.getValue();
+    //  this.applyClient(operation);
+    //  this.lastValue = this.model.getValue();
     }
   }
 
