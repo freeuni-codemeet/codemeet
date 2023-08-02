@@ -1,28 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import {
   Box,
-  Button,
-  Container,
   Flex,
-  Heading,
-  HStack,
-  Icon,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Link,
-  Select,
-  Stack,
-  Switch,
   Text,
   useToast,
 } from "@chakra-ui/react";
-import {
-  VscChevronRight,
-  VscFolderOpened,
-  VscGist,
-  VscRepoPull,
-} from "react-icons/vsc";
 import useStorage from "use-local-storage-state";
 import Editor from "@monaco-editor/react";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
