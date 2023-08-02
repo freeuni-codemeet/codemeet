@@ -27,11 +27,8 @@ import useStorage from "use-local-storage-state";
 import Editor from "@monaco-editor/react";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 import languages from "./languages.json";
-import animals from "./animals.json";
 import Rustpad, { UserInfo } from "./rustpad";
 import useHash from "./useHash";
-import ConnectionStatus from "./ConnectionStatus";
-import Footer from "./Footer";
 import User from "./User";
 import { useParams } from 'react-router-dom';
 
@@ -46,7 +43,7 @@ function getWsUri(sessionId: string) {
 }
 
 function generateName() {
-  return "Anonymous " + animals[Math.floor(Math.random() * animals.length)];
+  return "Anonymous ";
 }
 
 function generateHue() {
