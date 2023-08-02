@@ -2,6 +2,11 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import UserVideoComponent from "./UserVideoComponent";
 import useVideoChat from "../../hooks/useVideoChat";
+import { StrictMode } from "react";
+import ReactDOM from "react-dom";
+import { ChakraProvider } from "@chakra-ui/react";
+import init, { set_panic_hook } from "rustpad-wasm";
+import App from "../../rustpad/App";
 
 
 const Room = () => {
@@ -45,7 +50,8 @@ const Room = () => {
     }
 
     return (
-        <div>
+    <div style={{ display: 'flex' }}>
+        <div style={{ flex: '0 0 50%' }}>
             {sessionId === undefined ? (
                 <h1>Not found page</h1>
             ) : <></>}
@@ -92,6 +98,10 @@ const Room = () => {
                     </div>
                 </div>
             )}
+        </div>
+        <div style={{ flex: '0 0 50%' }}>
+            <App sessionId={sessionId} />
+        </div>
         </div>
     );
 }
