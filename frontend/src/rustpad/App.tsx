@@ -151,9 +151,7 @@ function App() {
       bgColor={darkMode ? "#1e1e1e" : "white"}
       color={darkMode ? "#cbcaca" : "inherit"}
     >
-      <Flex flex="1 0" minH={0}>
         <Flex flex={1} minW={0} h="100%" direction="column" overflow="hidden">
-
           <Box flex={1} minH={0}>
             <Editor
               theme={darkMode ? "vs-dark" : "vs"}
@@ -166,7 +164,6 @@ function App() {
             />
           </Box>
         </Flex>
-      </Flex>
     </Flex>
   );
 }
