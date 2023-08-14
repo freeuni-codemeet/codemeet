@@ -1,17 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  Box,
-  Flex,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
 import useStorage from "use-local-storage-state";
 import Editor from "@monaco-editor/react";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 import languages from "./languages.json";
 import Rustpad, { UserInfo } from "./rustpad";
 import useHash from "./useHash";
-import User from "./User";
 import { useParams } from 'react-router-dom';
 
 
@@ -33,7 +26,6 @@ function generateHue() {
 }
 
 function App() {
-  const toast = useToast();
   const [language, setLanguage] = useState("plaintext");
   const [connection, setConnection] = useState<
     "connected" | "disconnected" | "desynchronized"
@@ -59,12 +51,6 @@ function App() {
         onDisconnected: () => setConnection("disconnected"),
         onDesynchronized: () => {
           setConnection("desynchronized");
-          toast({
-            title: "Desynchronized with server",
-            description: "Please save your work and refresh the page.",
-            status: "error",
-            duration: null,
-          });
         },
         onChangeLanguage: (language) => {
           if (languages.includes(language)) {
@@ -78,7 +64,7 @@ function App() {
         rustpad.current = undefined;
       };
     }
-  }, [id, editor, toast, setUsers]);
+  }, [id, editor, setUsers]);
 
   useEffect(() => {
     if (connection === "connected") {
@@ -88,34 +74,10 @@ function App() {
 
   function handleChangeLanguage(language: string) {
     setLanguage(language);
-    if (rustpad.current?.setLanguage(language)) {
-      toast({
-        title: "Language updated",
-        description: (
-          <>
-            All users are now editing in{" "}
-            <Text as="span" fontWeight="semibold">
-              {language}
-            </Text>
-            .
-          </>
-        ),
-        status: "info",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
   }
 
   async function handleCopy() {
     await navigator.clipboard.writeText(`${window.location.origin}/#${id}`);
-    toast({
-      title: "Copied!",
-      description: "Link copied to clipboard",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-    });
   }
 
   function handleLoadSample() {
@@ -143,16 +105,18 @@ function App() {
   }
 
   return (
-    <Flex
-      style={{ marginLeft: "auto" }}
-      direction="column"
-      h="100vh"
-      overflow="hidden"
-      bgColor={darkMode ? "#1e1e1e" : "white"}
-      color={darkMode ? "#cbcaca" : "inherit"}
+    <div
+      style={{
+        flexDirection: "column",
+        marginLeft: "auto",
+        height: "100%",
+        overflow: "hidden",
+        backgroundColor: darkMode ? "#1e1e1e" : "white",
+        color: darkMode ? "#cbcaca" : "inherit",
+      }}
     >
-        <Flex flex={1} minW={0} h="100%" direction="column" overflow="hidden">
-          <Box flex={1} minH={0}>
+        <div style={{flex: 1, height: "100%", flexDirection: "column", overflow: "hidden"}}>
+          <div style={{flex: 1}}>
             <Editor
               theme={darkMode ? "vs-dark" : "vs"}
               language={language}
@@ -162,9 +126,9 @@ function App() {
               }}
               onMount={(editor) => setEditor(editor)}
             />
-          </Box>
-        </Flex>
-    </Flex>
+          </div>
+        </div>
+    </div>
   );
 }
 
