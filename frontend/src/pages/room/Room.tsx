@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 import UserVideoComponent from "./UserVideoComponent";
 import useVideoChat from "../../hooks/useVideoChat";
-import App from "../../rustpad/App";
+import CodeEditor from "./CodeEditor";
 
 
 const Room = () => {
@@ -96,7 +96,7 @@ const Room = () => {
                 )}
             </div>
             <div style={{flex: '0 0 50%'}}>
-                <App/>
+                <CodeEditor/>
             </div>
         </div>
     );
