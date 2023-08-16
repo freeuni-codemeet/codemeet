@@ -1,19 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from "./App";
+import ReactDOM from "react-dom/client";
+import init, {set_panic_hook} from "rustpad-wasm";
 import {BrowserRouter} from "react-router-dom";
-
-const root = ReactDOM.createRoot(
-    document.getElementById('root') as HTMLElement
-);
-
-//register();
-
-root.render(
-    <BrowserRouter>
-        <App/>
-    </BrowserRouter>
-);
+import App from "./App";
 
 
-//reportWebVitals();
+init().then(() => {
+    set_panic_hook();
+    const root = ReactDOM.createRoot(
+        document.getElementById('root') as HTMLElement
+    );
+    root.render(
+        <BrowserRouter>
+            <App/>
+        </BrowserRouter>
+    );
+});
