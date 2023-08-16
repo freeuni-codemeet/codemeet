@@ -19,10 +19,10 @@ const MainPage = () => {
     return (
         <div>
             <div className="jumbotron vertical-center">
-                <h1> Join a video session </h1>
+                <h1> Register </h1>
                 <div className="form-group">
                     <p>
-                        <label>Participant: </label>
+                        <label>Username/Email: </label>
                         <input
                             className="form-control"
                             type="text"
@@ -43,8 +43,16 @@ const MainPage = () => {
                             required
                         />
                     </p>
-                    <p className="text-center">
-                    <a href="/register" className="btn btn-lg btn-primary ml-2">Register</a>
+                    <p>
+                        <label>RepeatPassword: </label>
+                        <input
+                            className="form-control"
+                            type="text"
+                            id="userName"
+                            value={password}
+                            onChange={handleChangePassword}
+                            required
+                        />
                     </p>
                     <p className="text-center">
                         <button className="btn btn-lg btn-success" onClick={onCreate}> CREATE </button>
