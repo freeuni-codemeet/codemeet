@@ -23,6 +23,8 @@ services:
       - '${CORE_EXTERNAL_PORT}:${CORE_INTERNAL_PORT}'
     links:
       - "openvidu:openvidu"
+    env_file:
+      - core.env
 
   webapp:
     build:
@@ -32,3 +34,13 @@ services:
       - '80:80'
     env_file:
       - ./webapp.env
+
+  codemeet_db:
+    container_name: codemeet-db
+    image: "postgres:14"
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=codemeet
+      - POSTGRES_PASSWORD=codemeet
+      - POSTGRES_DB=codemeet
