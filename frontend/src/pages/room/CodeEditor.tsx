@@ -10,7 +10,7 @@ const getWsUri = (sessionId: string)  => {
   return (
     (window.location.origin.startsWith("https") ? "wss://" : "ws://") +
      window.location.host +
-    `/api/socket/${sessionId}`
+    `/rustpad-api/socket/${sessionId}`
   );
 }
 

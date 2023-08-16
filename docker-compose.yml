@@ -2,25 +2,33 @@ version: '3.3'
 services:
   openvidu:
     ports:
-      - '${OPENVIDU_PORT}:${OPENVIDU_PORT}'
+      - '${OPENVIDU_EXTERNAL_PORT}:${OPENVIDU_INTERNAL_PORT}'
     image: 'openvidu/openvidu-dev:2.27.0'
     env_file:
-      - .env
-  core:
-    build:
-      context: .
-      args:
-        PORT: ${CORE_API_PORT}
-    command: uvicorn backend.src.app.app:app --host ${HOST} --port ${CORE_API_PORT}
-    ports:
-      - ${CORE_API_PORT}:${CORE_API_PORT}
-    links:
-      - "openvidu:openvidu"
-    env_file:
-      - .env
+      - ./openvidu.env
+
   rustpad:
     image: ekzhang/rustpad
     ports:
-      - '3030:3030'
+      - '${RUSTPAD_EXTERNAL_PORT}:${RUSTPAD_INTERNAL_PORT}'
     env_file:
-      - .env
+      - ./rustpad.env
+
+  core:
+    build:
+      context: .
+      dockerfile: Dockerfile.core
+    command: uvicorn backend.src.app.app:app --host ${CORE_HOST} --port ${CORE_INTERNAL_PORT}
+    ports:
+      - '${CORE_EXTERNAL_PORT}:${CORE_INTERNAL_PORT}'
+    links:
+      - "openvidu:openvidu"
+
+  webapp:
+    build:
+      context: .
+      dockerfile: Dockerfile.webapp
+    ports:
+      - '80:80'
+    env_file:
+      - ./webapp.env
