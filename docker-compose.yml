@@ -36,7 +36,6 @@ services:
       - ./webapp.env
 
   codemeet_db:
-    container_name: codemeet-db
     image: "postgres:14"
     ports:
       - "5432:5432"
