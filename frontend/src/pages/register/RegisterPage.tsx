@@ -47,9 +47,9 @@ const MainPage = () => {
                         <label>Password: </label>
                         <input
                             className="form-control"
-                            type="text"
+                            type="password"
                             id="userName"
-                            value={getMaskedPassword(password)}
+                            value={password}
                             onChange={handleChangePassword}
                             required
                         />
@@ -58,9 +58,9 @@ const MainPage = () => {
                         <label>Repeat Password: </label>
                         <input
                             className="form-control"
-                            type="text"
+                            type="password"
                             id="userName"
-                            value={getMaskedPassword(repeatedPassword)}
+                            value={repeatedPassword}
                             onChange={handleChangeRepeatedPassword}
                             required
                         />
