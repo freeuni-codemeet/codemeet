@@ -43,6 +43,7 @@ const useVideoChat = (): [
 
   const joinSession = (sessionId: string, username: string) => {
     if (openviduRef.current !== null) {
+      return;
       throw Error("already joined");
     }
 

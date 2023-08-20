@@ -9,7 +9,7 @@
     "openvidu-browser": "2.27.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^4.3.1",
+    "react-icons": "^4.10.1",
     "react-router-dom": "^6.11.1",
     "rustpad-wasm": "file:./rustpad-wasm/pkg",
     "use-local-storage-state": "^13.0.0",

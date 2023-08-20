@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Editor from "@monaco-editor/react";
+import { Editor, useMonaco } from "@monaco-editor/react";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 import languages from "../../rustpad/languages.json";
 import { useParams } from "react-router-dom";
@@ -22,7 +22,7 @@ const generateHue = () => {
 };
 
 const CodeEditor = () => {
-  const [language, setLanguage] = useState("plaintext");
+  const [language, setLanguage] = useState("python");
   const [connection, setConnection] = useState<
     "connected" | "disconnected" | "desynchronized"
   >("disconnected");
@@ -31,6 +31,19 @@ const CodeEditor = () => {
   const [editor, setEditor] = useState<editor.IStandaloneCodeEditor>();
   const rustpad = useRef<Rustpad>();
   const { sessionId } = useParams();
+  const monaco = useMonaco();
+
+  useEffect(() => {
+    monaco?.editor.defineTheme("my-theme", {
+      base: "vs-dark",
+      inherit: true,
+      rules: [],
+      colors: {
+        "editor.background": "#1e293b", //slate-800
+      },
+    });
+    monaco?.editor.setTheme("my-theme");
+  }, [monaco]);
 
   useEffect(() => {
     if (editor?.getModel() && sessionId) {
