@@ -78,23 +78,9 @@ const CodeEditor = () => {
   }, [connection, name, hue]);
 
   return (
-    <div
-      style={{
-        flexDirection: "column",
-        marginLeft: "auto",
-        height: "100vh",
-        overflow: "hidden",
-      }}
-    >
-      <div
-        style={{
-          flex: 1,
-          height: "100%",
-          flexDirection: "column",
-          overflow: "hidden",
-        }}
-      >
-        <div style={{ flex: 1, height: "100%" }}>
+    <div className={"flex flex-col ml-auto h-screen overflow-hidden"}>
+      <div className={"flex-1 flex-col h-full"}>
+        <div className={"flex-1 h-full"}>
           <Editor
             theme={"vs-dark"}
             language={language}
