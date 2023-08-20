@@ -43,3 +43,6 @@ services:
       - POSTGRES_USER=codemeet
       - POSTGRES_PASSWORD=codemeet
       - POSTGRES_DB=codemeet
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+

@@ -8,3 +8,7 @@ starlette==0.27.0
 pydantic~=1.10.7
 httpx~=0.24.0
 dependency-injector~=4.41
+passlib[bcrypt]
+python-jose[cryptography]
+sqlalchemy~=1.4.23
+psycopg2
