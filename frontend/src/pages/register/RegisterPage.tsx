@@ -32,10 +32,6 @@ const MainPage = () => {
         }
     }
 
-     const getMaskedPassword = (input: string) => {
-        return input.replace(/./g, "*");
-    };
-
     const handleChangeUserName = (e: React.ChangeEvent<HTMLInputElement>) => setUsername(e.target.value);
     const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value);
     const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value);

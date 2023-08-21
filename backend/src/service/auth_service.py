@@ -23,8 +23,17 @@ class AuthService:
             raise HTTPException(status_code=400, detail="Email already registered")
         return self.create_user(user)
 
+    def get_user(self, usernameOrEmail: str):
+        if '@' in usernameOrEmail:
+            return self.get_user_by_email(usernameOrEmail)
+        else:
+            return self.get_user_by_username(usernameOrEmail)
+
     def get_user_by_email(self, email: str):
         return self.db.query(user.User).filter(user.User.email == email).first()
+
+    def get_user_by_username(self, username: str):
+        return self.db.query(user.User).filter(user.User.username == username).first()
 
     def create_user(self, user: user.UserBase):
         db_user = User(email=user.email, username=user.username, password=user.password)
