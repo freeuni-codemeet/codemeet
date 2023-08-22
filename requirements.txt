@@ -14,3 +14,6 @@ sqlalchemy~=1.4.23
 psycopg2
 PyJWT==1.7.1
 python-decouple
+itsdangerous
+google-auth
+requests
