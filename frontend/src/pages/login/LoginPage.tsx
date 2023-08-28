@@ -31,7 +31,7 @@ const LoginPage = () => {
 
     const responseGoogle = (response) => {
     if (response.tokenId){
-      fetch('http://localhost:8000/auth?token='+ response.tokenId,{
+      fetch('http://localhost:80/auth?token='+ response.tokenId,{
         credentials: 'include',
         // To cause browsers to send a request with credentials included on both same-origin and cross-origin calls,
         // add credentials: 'include' to the init object you pass to the fetch() method.
@@ -46,7 +46,7 @@ const LoginPage = () => {
 }
 
 const temp = () =>{
-  fetch('http://localhost:8000',{
+  fetch('http://localhost:80',{
     credentials:'include'
   })
   .then((response) => {

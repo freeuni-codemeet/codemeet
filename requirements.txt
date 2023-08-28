@@ -17,3 +17,4 @@ python-decouple
 itsdangerous
 google-auth
 requests
+google~=3.0.0

@@ -1,11 +1,12 @@
 from fastapi.middleware.cors import CORSMiddleware
-from google.auth.transport import requests
-from google.oauth2 import id_token
+
 from starlette.middleware.sessions import SessionMiddleware
 from starlette.requests import Request
 
 from backend.src.api.auth_router import auth_router
 from backend.src.app.app import app
+
+from backend.src.service import google_auth_service
 
 origins = [
     "http://localhost:3000",
@@ -24,18 +25,9 @@ app.add_middleware(
 
 @auth_router.get("/login/auth")
 def authentication(request: Request, token: str):
-    try:
-        user = id_token.verify_oauth2_token(token, requests.Request(),
-                                            "116988546-2a283t6anvr0.apps.googleusercontent.com")
-        request.session['user'] = dict({
-            "email": user["email"]
-        })
-        return user['name'] + ' Logged In successfully'
-
-    except ValueError:
-        return "unauthorized"
+    return google_auth_service.authentication(request, token)
 
 
 @auth_router.get('/')
 def check(request: Request):
-    return "hi " + str(request.session.get('user')['email'])
+    return google_auth_service.check(request)

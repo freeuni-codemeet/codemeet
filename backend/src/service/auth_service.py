@@ -43,7 +43,7 @@ class AuthService:
         return self.db.query(user.User).filter(user.User.username == username).first()
 
     def create_user(self, user: user.UserBase):
-        hashed_password = bcrypt.hashpw(user.password.encode('utf-8'), bcrypt.gensalt())
+        hashed_password = bcrypt.hash(user.password.encode('utf-8'), bcrypt.gensalt())
         db_user = User(email=user.email, username=user.username, password=hashed_password)
         self.db.add(db_user)
         self.db.commit()
