@@ -8,3 +8,13 @@ starlette==0.27.0
 pydantic~=1.10.7
 httpx~=0.24.0
 dependency-injector~=4.41
+passlib[bcrypt]~=1.7.4
+python-jose[cryptography]
+sqlalchemy~=1.4.23
+psycopg2
+PyJWT==1.7.1
+python-decouple
+itsdangerous
+google-auth
+requests
+google~=3.0.0

@@ -35,3 +35,13 @@ services:
       - '443:443'
     env_file:
       - ./webapp.env
+
+  codemeet_db:
+    image: "postgres:14"
+    ports:
+      - "5432:5432"
+    env_file:
+      - postgres.env
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
