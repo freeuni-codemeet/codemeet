@@ -11,14 +11,14 @@ export default defineConfig({
     proxy: {
       "/rustpad-api": {
         target: "http://localhost:8082",
-        rewrite: (path) => path.replace(/^\/rustpad-api/, 'api'),
+        rewrite: (path) => path.replace(/^\/rustpad-api/, "api"),
         changeOrigin: true,
         secure: false,
         ws: true,
       },
       "/core-api": {
         target: "http://localhost:8080",
-        rewrite: (path) => path.replace(/^\/core-api/, 'api'),
+        rewrite: (path) => path.replace(/^\/core-api/, "api"),
         changeOrigin: true,
         secure: false,
         ws: false,
