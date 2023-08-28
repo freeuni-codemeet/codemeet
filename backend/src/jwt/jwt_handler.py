@@ -1,9 +1,10 @@
+import os
 import time
-import jwt
-from decouple import config
 
-JWT_SECRET = config("secret")
-JWT_ALGORITHM = config("algorithm")
+import jwt
+
+JWT_SECRET = os.getenv('secret')
+JWT_ALGORITHM = os.getenv('algorithm')
 
 
 def token_response(token: str):
