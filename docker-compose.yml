@@ -3,7 +3,7 @@ services:
   openvidu:
     ports:
       - '${OPENVIDU_EXTERNAL_PORT}:${OPENVIDU_INTERNAL_PORT}'
-    image: 'openvidu/openvidu-dev:2.27.0'
+    image: 'openvidu/openvidu-dev:2.28.0'
     env_file:
       - ./openvidu.env
 
@@ -32,5 +32,6 @@ services:
       dockerfile: Dockerfile.webapp
     ports:
       - '80:80'
+      - '443:443'
     env_file:
       - ./webapp.env

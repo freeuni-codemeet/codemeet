@@ -22,7 +22,6 @@ const useVideoChat = (): [
   const [publisher, setPublisher] = useState<Publisher | undefined>(undefined);
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
 
-  const openviduRef = useRef<OpenVidu | null>(null);
   const sessionRef = useRef<Session | null>(null);
   const onBeforeUnload = () => leaveSession();
 
@@ -42,44 +41,42 @@ const useVideoChat = (): [
   };
 
   const joinSession = (sessionId: string, username: string) => {
-    if (openviduRef.current !== null) {
+    if (sessionRef.current !== null) {
       return; //"already joined"
     }
 
-    openviduRef.current = new OpenVidu();
+    const openvidu = new OpenVidu();
 
-    sessionRef.current = openviduRef.current?.initSession();
+    sessionRef.current = openvidu.initSession();
 
-    const mySession = sessionRef.current;
-
-    if (!mySession) {
+    if (!sessionRef.current) {
       throw Error("null session");
     }
 
-    mySession.on("streamCreated", (event) => {
+    sessionRef.current.on("streamCreated", (event) => {
       setSubscribers((currentSubscribers) => [
         ...currentSubscribers,
-        mySession.subscribe(event.stream, undefined),
+        sessionRef.current.subscribe(event.stream, undefined),
       ]);
     });
 
-    mySession.on("streamDestroyed", (event) => {
+    sessionRef.current.on("streamDestroyed", (event) => {
       deleteSubscriber(event.stream.streamManager);
     });
 
-    mySession.on("exception", (exception) => {
+    sessionRef.current.on("exception", (exception) => {
       console.warn(exception);
     });
 
     getToken(sessionId).then((token) => {
-      mySession
+      sessionRef.current
         .connect(token, { clientData: username })
         .then(async () => {
-          if (openviduRef.current === null) {
+          if (openvidu === null) {
             throw Error("openvidu null");
           }
 
-          const publisher = await openviduRef.current.initPublisherAsync(
+          const publisher = await openvidu.initPublisherAsync(
             undefined,
             {
               audioSource: undefined,
@@ -93,7 +90,7 @@ const useVideoChat = (): [
             }
           );
 
-          await mySession.publish(publisher);
+          await sessionRef.current.publish(publisher);
 
           setMainStreamManager(publisher);
           setPublisher(publisher);
@@ -112,7 +109,6 @@ const useVideoChat = (): [
     if (sessionRef.current) {
       sessionRef.current?.disconnect();
     }
-    openviduRef.current = null;
     sessionRef.current = null;
     setSubscribers([]);
     setMainStreamManager(undefined);
