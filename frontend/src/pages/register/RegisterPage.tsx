@@ -4,7 +4,7 @@ import openviduApi from "../../api/openvidu";
 import axios from "axios";
 
 
-const MainPage = () => {
+const RegisterPage = () => {
     const [username, setUsername] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
@@ -96,4 +96,4 @@ const MainPage = () => {
     );
 }
 
-export default MainPage;
+export default RegisterPage;
