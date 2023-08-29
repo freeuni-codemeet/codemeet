@@ -69,7 +69,7 @@ const CodeEditor = () => {
       style={{
         flexDirection: "column",
         marginLeft: "auto",
-        height: "100vh",
+        height: "70vh",
         overflow: "hidden",
       }}
     >

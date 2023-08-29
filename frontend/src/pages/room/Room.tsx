@@ -92,13 +92,7 @@ const Room = () => {
                 onClick={handleLeaveSessionClicked}
                 value="Leave session"
               />
-              <button onClick={handleCompileClick}>Compile</button>
-              <select value={selectedLanguage} onChange={handleLanguageChange}>
-                <option value="python">Python</option>
-                <option value="rust">Rust</option>
-                <option value="cpp">C++</option>
-                <option value="c">C</option>
-              </select>
+
             </div>
 
             <div>
@@ -117,8 +111,22 @@ const Room = () => {
           </div>
         )}
       </div>
-      <div style={{ flex: "0 0 50%" }}>
-        <CodeEditor />
+      <div>
+      <div style={{ marginBottom: "8px" }}>
+          <button onClick={handleCompileClick}>Compile</button>
+          <select value={selectedLanguage} onChange={handleLanguageChange} style={{ marginLeft: "80px" }}>
+            <option value="python">Python</option>
+            <option value="rust">Rust</option>
+            <option value="cpp">C++</option>
+            <option value="c">C</option>
+          </select>
+        </div>
+        <div>
+          <CodeEditor />
+        </div>
+        <div>
+          <Compiler onCompile={handleCompileClick} />
+        </div>
       </div>
     </div>
   );
