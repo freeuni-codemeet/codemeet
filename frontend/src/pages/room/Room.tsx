@@ -4,6 +4,7 @@ import axios from "axios";
 import UserVideoComponent from "./UserVideoComponent";
 import useVideoChat from "../../hooks/useVideoChat";
 import CodeEditor from "./CodeEditor";
+import Compiler from "./Compiler"
 
 const Room = () => {
   const navigate = useNavigate();
