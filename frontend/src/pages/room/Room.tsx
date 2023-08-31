@@ -32,8 +32,8 @@ const Room = () => {
 
   useEffect(() => {
     if (!sessionId) throw Error("session id not found");
-    joinSession(sessionId, usernameRef.current);
-  }, [sessionId, joinSession]);
+    joinSession(sessionId, usernameRef.current, state?.secretToken);
+  }, [state, sessionId, joinSession]);
 
   const handleLeaveSessionClicked = () => {
     leaveSession();

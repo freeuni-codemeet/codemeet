@@ -78,7 +78,7 @@ const UserVideoComponent = ({
                 )}
               </div>
 
-              {streamManager !== mainStreamManager ? (
+              {streamManager !== mainStreamManager && mainStreamManager.stream.connection.role === "MODERATOR" ? (
                 <button
                   className={
                     "bg-red-700 hover:bg-red-800 px-2 py-1 text-sm leading-5 rounded-lg font-semibold text-white "

@@ -14,8 +14,8 @@ JWT_ALGORITHM = "HS256"
 
 @dataclass
 class CreateSessionResponse:
-    session_id: str
-    secret_token: str
+    sessionId: str
+    secretToken: str
 
 
 class OpenviduService:
@@ -31,7 +31,8 @@ class OpenviduService:
         return token
 
     def _verifyJwt(self, token: str) -> bool:
-        return jwt.decode(jwt=token, key=JWT_SECRET, algorithm=JWT_ALGORITHM).get("permission") == OpenviduRole.MODERATOR.name
+        decoded = jwt.decode(jwt=token, key=JWT_SECRET, algorithm=JWT_ALGORITHM)
+        return decoded.get("permission") == OpenviduRole.MODERATOR.name  # TODO check expiry
 
     async def create_session(self) -> CreateSessionResponse:
         session_id = str(uuid.uuid4())
