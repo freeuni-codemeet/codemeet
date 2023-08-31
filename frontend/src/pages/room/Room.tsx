@@ -22,13 +22,18 @@ const Room = () => {
     state?.username || `participant${Math.random() * 100 + 1}`
   );
 
-  const [mainStreamManager, publisher, subscribers, joinSession, leaveSession] =
-    useVideoChat();
+  const {
+    mainStreamManager,
+    publisher,
+    subscribers,
+    joinSession,
+    leaveSession,
+  } = useVideoChat();
 
   useEffect(() => {
-    if (sessionId === undefined) throw Error("session id not found");
+    if (!sessionId) throw Error("session id not found");
     joinSession(sessionId, usernameRef.current);
-  }, []);
+  }, [sessionId, joinSession]);
 
   const handleLeaveSessionClicked = () => {
     leaveSession();

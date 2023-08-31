@@ -1,9 +1,14 @@
+from enum import Enum
+
 import httpx
 from httpx import Response
-from pydantic import Json
 
 from backend.src.config.config import Configuration
 
+
+class OpenviduRole(Enum):
+    MODERATOR = "MODERATOR"
+    PUBLISHER = "PUBLISHER"
 
 class OpenviduConnector:
     def __init__(self, configuration: Configuration):
@@ -31,11 +36,11 @@ class OpenviduConnector:
                 ),
             )
 
-    async def create_connection(self, session_id: str) -> Response:
+    async def create_connection(self, session_id: str, role: OpenviduRole) -> Response:
         async with httpx.AsyncClient() as client:
             return await client.post(
                 f"{self.configuration.OPENVIDU_URL}openvidu/api/sessions/{session_id}/connection",
-                json={},
+                json={"role": role.name},
                 headers={"Content-type": "application/json"},
                 auth=(
                     self.configuration.OPENVIDU_USERNAME,
