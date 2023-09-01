@@ -1,14 +1,13 @@
 import requests
-import os
-from backend.src.config.config import get_settings
+from decouple import config
 
-config = get_settings()
+env_file_path = "../../../.env"
+
 
 class CompilerService:
 
     def compile_code(encoded_code: str):
-
-        url = config.SERVER_URL
+        url = config("SERVER_URL", default=None, config_file=env_file_path)
 
         querystring = {"base64_encoded": "true", "fields": "*"}
 
