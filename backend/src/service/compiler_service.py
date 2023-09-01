@@ -1,13 +1,14 @@
 import requests
 import os
+from backend.src.config.config import get_settings
 
+config = get_settings()
 
 class CompilerService:
 
     def compile_code(encoded_code: str):
-        url = os.getenv("url")
 
-        # secret_key = os.getenv("secret_key")
+        url = config.SERVER_URL
 
         querystring = {"base64_encoded": "true", "fields": "*"}
 
