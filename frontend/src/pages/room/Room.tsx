@@ -13,7 +13,14 @@ const Room = () => {
 
   const [videoEnabled, setVideoEnabled] = useState<boolean>(true);
   const [audioEnabled, setAudioEnabled] = useState<boolean>(true);
-  const [selectedLanguage, setSelectedLanguage] = useState("python"); // Default language is "python"
+  const [selectedLanguage, setSelectedLanguage] = useState("python");
+
+  const [languageIdMap, setLanguageIdMap] = useState({
+    python: 52,
+    rust: 53,
+    cpp: 54,
+    c: 55,
+  });
 
   const usernameRef: React.MutableRefObject<string> = useRef(
     state?.username || `participant${Math.random() * 100 + 1}`
@@ -50,12 +57,15 @@ const Room = () => {
 
   const handleCompileClick = async () => {
     try {
+        console.log(selectedLanguage)
+        console.log()
       const response = await axios.get("/core-api/compiler/compile", {
         params: {
-          language: selectedLanguage,
-          code: "code_from_editor", // Replace with your actual code from the editor
+          language_id: languageIdMap[selectedLanguage],
+          code: "code_from_editor",
         },
       });
+      console.log("response")
       console.log("Compilation result:", response.data);
     } catch (error) {
       console.error("Error compiling:", error);

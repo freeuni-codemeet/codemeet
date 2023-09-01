@@ -6,13 +6,13 @@ env_file_path = "../../../.env"
 
 class CompilerService:
 
-    def compile_code(encoded_code: str):
+    def compile_code(language_id: int, encoded_code: str):
         url = config("SERVER_URL", default=None, config_file=env_file_path)
 
         querystring = {"base64_encoded": "true", "fields": "*"}
 
         payload = {
-            "language_id": 52,
+            "language_id": language_id,
             "source_code": encoded_code,
             "stdin": ""
         }
