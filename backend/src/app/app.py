@@ -4,6 +4,7 @@ from starlette.middleware.cors import CORSMiddleware
 from backend.src.api.auth_router import auth_router
 from backend.src.api.openvidu_router import openvidu_router
 from backend.src.app.containers import Container
+from backend.src.api.compiler_router import compiler_router
 
 
 def create_application() -> FastAPI:
@@ -14,6 +15,8 @@ def create_application() -> FastAPI:
     application.include_router(openvidu_router)
 
     application.include_router(auth_router)
+
+    application.include_router(compiler_router)
 
     application.add_middleware(
         CORSMiddleware,

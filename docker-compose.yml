@@ -35,7 +35,7 @@ services:
     env_file:
       - ./webapp.env
 
-  codemeet_db:
+  core_db:
     image: "postgres:14"
     ports:
       - "5433:5432"
