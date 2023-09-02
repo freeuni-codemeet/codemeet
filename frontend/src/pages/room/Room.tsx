@@ -3,6 +3,12 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import UserVideoComponent from "./UserVideoComponent";
 import useVideoChat from "../../hooks/useVideoChat";
 import CodeEditor from "./CodeEditor";
+import {
+  BsFillCameraVideoFill,
+  BsFillCameraVideoOffFill,
+  BsMicFill,
+  BsMicMuteFill,
+} from "react-icons/bs";
 
 const Room = () => {
   const navigate = useNavigate();
@@ -16,13 +22,18 @@ const Room = () => {
     state?.username || `participant${Math.random() * 100 + 1}`
   );
 
-  const [mainStreamManager, publisher, subscribers, joinSession, leaveSession] =
-    useVideoChat();
+  const {
+    mainStreamManager,
+    publisher,
+    subscribers,
+    joinSession,
+    leaveSession,
+  } = useVideoChat();
 
   useEffect(() => {
-    if (sessionId === undefined) throw Error("session id not found");
-    joinSession(sessionId, usernameRef.current);
-  }, []);
+    if (!sessionId) throw Error("session id not found");
+    joinSession(sessionId, usernameRef.current, state?.secretToken);
+  }, [state, sessionId, joinSession]);
 
   const handleLeaveSessionClicked = () => {
     leaveSession();
@@ -42,38 +53,61 @@ const Room = () => {
   };
 
   return (
-    <div style={{ display: "flex" }}>
-      <div style={{ flex: "0 0 50%" }}>
+    <div className={"flex h-screen"}>
+      <div className={"w-1/4"}>
         {sessionId === undefined ? <h1>Not found page</h1> : <></>}
 
+        {/*TODO add skeletons*/}
         {mainStreamManager === undefined ? (
           <h1>loading...</h1>
         ) : (
-          <div>
-            <div>
-              <h1>{sessionId}</h1>
-              <input
-                type="checkbox"
-                id="checkBoxVideo"
-                onChange={handleTurnOffVideo}
-                checked={videoEnabled}
-              />
-              <label htmlFor="checkBoxVideo">video switch</label>
-              <input
-                type={"checkbox"}
-                id="checkBoxAudio"
-                onChange={handleTurnOffAudio}
-                checked={audioEnabled}
-              />
-              <label htmlFor="checkBoxAudio">audio switch</label>
-              <input
-                type={"button"}
+          <div className={"flex flex-col max-h-full px-2 gap-2"}>
+            <div className={"flex flex-row py-4 px-2 gap-3 items-center"}>
+              {videoEnabled ? (
+                <BsFillCameraVideoFill
+                  onClick={handleTurnOffVideo}
+                  className={
+                    "w-10 h-10 p-2 bg-gray-800 hover:bg-gray-700 rounded-full cursor-pointer"
+                  }
+                />
+              ) : (
+                <BsFillCameraVideoOffFill
+                  onClick={handleTurnOffVideo}
+                  className={
+                    "w-10 h-10 p-2 bg-red-700 hover:bg-red-800 rounded-full cursor-pointer"
+                  }
+                />
+              )}
+
+              {audioEnabled ? (
+                <BsMicFill
+                  onClick={handleTurnOffAudio}
+                  className={
+                    "w-10 h-10 p-2 bg-gray-800 hover:bg-gray-700 rounded-full cursor-pointer"
+                  }
+                />
+              ) : (
+                <BsMicMuteFill
+                  onClick={handleTurnOffAudio}
+                  className={
+                    "w-10 h-10 p-2 bg-red-700 hover:bg-red-800 rounded-full cursor-pointer"
+                  }
+                />
+              )}
+
+              <button
+                className={
+                  "bg-red-700 hover:bg-red-800 px-3 py-2 text leading-5 rounded-xl font-semibold text-white"
+                }
                 onClick={handleLeaveSessionClicked}
-                value="Leave session"
-              />
+              >
+                Leave
+              </button>
             </div>
 
-            <div>
+            <div
+              className={"flex flex-col max-h-full overflow-y-auto px-2 gap-2"}
+            >
               {publisher !== undefined ? (
                 <div>
                   <UserVideoComponent streamManager={publisher} />
@@ -89,7 +123,7 @@ const Room = () => {
           </div>
         )}
       </div>
-      <div style={{ flex: "0 0 50%" }}>
+      <div className={"w-3/4"}>
         <CodeEditor />
       </div>
     </div>

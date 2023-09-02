@@ -1,7 +1,7 @@
 from pydantic import BaseModel
+from sqlalchemy import Column, Integer, String
 
 from backend.src.database.database import Base
-from sqlalchemy import Column, Integer, String
 
 
 class UserBase(BaseModel):

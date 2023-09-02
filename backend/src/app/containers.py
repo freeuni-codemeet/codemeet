@@ -13,6 +13,6 @@ class Container(containers.DeclarativeContainer):
 
     openvidu_connector = providers.Singleton(OpenviduConnector, configuration)
 
-    openvidu_service = providers.Singleton(OpenviduService, openvidu_connector)
+    openvidu_service = providers.Singleton(OpenviduService, openvidu_connector, configuration)
 
     auth_service = providers.Singleton(AuthService)
