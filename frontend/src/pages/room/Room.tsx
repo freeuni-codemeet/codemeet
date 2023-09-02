@@ -32,6 +32,7 @@ const Room = () => {
 
   useEffect(() => {
     if (!sessionId) throw Error("session id not found");
+    console.log(state);
     joinSession(sessionId, usernameRef.current, state?.secretToken);
   }, [state, sessionId, joinSession]);
 
@@ -61,7 +62,7 @@ const Room = () => {
         {mainStreamManager === undefined ? (
           <h1>loading...</h1>
         ) : (
-          <div className={"flex flex-col max-h-full px-2 gap-2"}>
+          <div className={"flex flex-col max-h-screen px-2 gap-2"}>
             <div className={"flex flex-row py-4 px-2 gap-3 items-center"}>
               {videoEnabled ? (
                 <BsFillCameraVideoFill
