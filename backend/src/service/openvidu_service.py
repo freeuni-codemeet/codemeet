@@ -4,11 +4,10 @@ import uuid
 import jwt
 from pydantic.dataclasses import dataclass
 
+from backend.src.config.config import Configuration
 from backend.src.exception.exceptions import SessionNotFoundException
 from backend.src.openvidu.openvidu_connector import OpenviduConnector, OpenviduRole
 
-# TODO move those in .env
-JWT_SECRET = "SECRET_KEY"
 JWT_ALGORITHM = "HS256"
 
 
@@ -19,8 +18,9 @@ class CreateSessionResponse:
 
 
 class OpenviduService:
-    def __init__(self, openvidu_connector: OpenviduConnector):
+    def __init__(self, openvidu_connector: OpenviduConnector, configuration: Configuration):
         self.openvidu_connector = openvidu_connector
+        self.configuration = configuration
 
     def _signJwt(self, session_id: str, openviduRole: OpenviduRole) -> str:
         payload = {
@@ -28,13 +28,13 @@ class OpenviduService:
             "permission": openviduRole.name,
             "expiry": time.time() + 30,
         }
-        token = jwt.encode(payload=payload, key=JWT_SECRET, algorithm=JWT_ALGORITHM)
+        token = jwt.encode(payload=payload, key=self.configuration.JWT_SECRET, algorithm=JWT_ALGORITHM)
         return token
 
     def _verifyJwt(self, session_id: str, token: str | None) -> bool:
         if token is None:
             return False
-        decoded = jwt.decode(jwt=token, key=JWT_SECRET, algorithm=JWT_ALGORITHM)
+        decoded = jwt.decode(jwt=token, key=self.configuration.JWT_SECRET, algorithm=JWT_ALGORITHM)
         return (
             decoded.get("permission") == OpenviduRole.MODERATOR.name
             and decoded.get("sessionId") == session_id
