@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import React from "react";
+import ModalCloseButton from "../../components/ModalCloseButton";
 
 interface GetStartedModalContentProps {
   closeModal: () => void;
@@ -11,26 +12,7 @@ const GetStartedModalContent = ({
   return (
     <div className="relative w-full max-w-md max-h-full">
       <div className="relative rounded-lg shadow-lg bg-slate-800">
-        <button
-          type="button"
-          onClick={closeModal}
-          className="absolute top-3 right-2.5 text-slate-600 bg-transparent rounded-lg text-lg w-8 h-8 ml-auto inline-flex justify-center items-center hover:bg-slate-700 hover:text-white"
-        >
-          <svg
-            className="w-3 h-3"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 14"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-            />
-          </svg>
-        </button>
+        <ModalCloseButton closeModal={closeModal}/>
         <div className="px-6 py-6 lg:px-8">
           <p className="mb-4 text-3xl font-medium text-white">
             Sign in to our platform
