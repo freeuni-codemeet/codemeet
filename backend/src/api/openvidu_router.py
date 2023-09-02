@@ -2,7 +2,7 @@ from dependency_injector.wiring import Provide, inject
 from fastapi import APIRouter, Depends
 
 from backend.src.app.containers import Container
-from backend.src.service.openvidu_service import OpenviduService, CreateSessionResponse
+from backend.src.service.openvidu_service import CreateSessionResponse, OpenviduService
 
 openvidu_router = APIRouter(prefix="/api/sessions")
 

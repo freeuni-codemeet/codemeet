@@ -10,6 +10,7 @@ class OpenviduRole(Enum):
     MODERATOR = "MODERATOR"
     PUBLISHER = "PUBLISHER"
 
+
 class OpenviduConnector:
     def __init__(self, configuration: Configuration):
         self.configuration = configuration

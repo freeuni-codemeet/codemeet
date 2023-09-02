@@ -1,8 +1,8 @@
 from dependency_injector.wiring import inject
 from fastapi import APIRouter, Depends
 
-from ..service.auth_service import AuthService
 from ..database import user
+from ..service.auth_service import AuthService
 
 auth_router = APIRouter(prefix="/api/users")
 

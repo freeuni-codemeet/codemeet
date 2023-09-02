@@ -9,11 +9,12 @@ from backend.src.jwt.jwt_handler import signJWT
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return bcrypt.checkpw(plain_password.encode('utf-8'), hashed_password.encode('utf-8'))
+    return bcrypt.checkpw(
+        plain_password.encode("utf-8"), hashed_password.encode("utf-8")
+    )
 
 
 class AuthService:
-
     def __init__(self):
         self.db = SessionLocal()
 
@@ -27,7 +28,7 @@ class AuthService:
         return self.create_user(user)
 
     def get_user(self, usernameOrEmail: str, password: str):
-        if '@' in usernameOrEmail:
+        if "@" in usernameOrEmail:
             curr_user = self.get_user_by_email(usernameOrEmail)
         else:
             curr_user = self.get_user_by_username(usernameOrEmail)
@@ -43,8 +44,10 @@ class AuthService:
         return self.db.query(user.User).filter(user.User.username == username).first()
 
     def create_user(self, user: user.UserBase):
-        hashed_password = bcrypt.hash(user.password.encode('utf-8'), bcrypt.gensalt())
-        db_user = User(email=user.email, username=user.username, password=hashed_password)
+        hashed_password = bcrypt.hash(user.password.encode("utf-8"), bcrypt.gensalt())
+        db_user = User(
+            email=user.email, username=user.username, password=hashed_password
+        )
         self.db.add(db_user)
         self.db.commit()
         self.db.refresh(db_user)
