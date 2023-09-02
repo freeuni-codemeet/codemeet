@@ -1,6 +1,5 @@
 import useVideoChat from "../../hooks/useVideoChat";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   BsFillCameraVideoFill,
   BsFillCameraVideoOffFill,
@@ -27,18 +26,23 @@ const VideoChat = ({ sessionId, username, secretToken }: VideoChatProps) => {
     leaveSession,
   } = useVideoChat();
 
-  const navigateToMainPageHard = (e?: PopStateEvent) => {
-    e?.preventDefault();
-    leaveSession();
+  const navigateToMainPageHard = () => {
     window.location.href = window.location.origin;
   };
 
+  const onBrowserBack = useCallback(
+    (e: PopStateEvent) => {
+      e.preventDefault();
+      leaveSession();
+      navigateToMainPageHard();
+    },
+    [leaveSession]
+  );
+
   useEffect(() => {
-    window.addEventListener("popstate", (e) => navigateToMainPageHard(e));
-    return window.removeEventListener("popstate", (e) =>
-      navigateToMainPageHard(e)
-    );
-  }, []);
+    window.addEventListener("popstate", onBrowserBack);
+    return window.removeEventListener("popstate", onBrowserBack);
+  }, [onBrowserBack]);
 
   useEffect(() => {
     joinSession(sessionId, username, secretToken);
@@ -57,6 +61,7 @@ const VideoChat = ({ sessionId, username, secretToken }: VideoChatProps) => {
   };
 
   const handleLeaveSessionClicked = () => {
+    leaveSession();
     navigateToMainPageHard();
   };
 

@@ -12,7 +12,7 @@ const GetStartedModalContent = ({
   return (
     <div className="relative w-full max-w-md max-h-full">
       <div className="relative rounded-lg shadow-lg bg-slate-800">
-        <ModalCloseButton closeModal={closeModal}/>
+        <ModalCloseButton closeModal={closeModal} />
         <div className="px-6 py-6 lg:px-8">
           <p className="mb-4 text-3xl font-medium text-white">
             Sign in to our platform

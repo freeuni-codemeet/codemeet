@@ -28,8 +28,8 @@ const CreateRoomModalContent = ({
 
   return (
     <div className="relative w-full max-w-md max-h-full">
-              <div className="relative rounded-lg shadow-lg bg-slate-800">
-      <ModalCloseButton closeModal={closeModal}/>
+      <div className="relative rounded-lg shadow-lg bg-slate-800">
+        <ModalCloseButton closeModal={closeModal} />
         <div className="px-6 py-6 lg:px-8">
           <p className="mb-4 text-3xl font-medium text-white">Create Room</p>
           <div className="space-y-6">
