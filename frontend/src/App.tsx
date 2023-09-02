@@ -1,22 +1,28 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import MainPage from "./pages/main-page/MainPage";
-import RegisterPage from "./pages/register/RegisterPage";
-import LoginPage from "./pages/login/LoginPage";
 import Room from "./pages/room/Room";
 import { VideoChatContextProvider } from "./context/videoChatContext";
+import SignInModal from "./pages/main-page/SignInModal";
+import CreateRoomModal from "./pages/main-page/CreateRoomModal";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <MainPage />,
-  },
-  {
-    path: "/register",
-    element: <RegisterPage />,
-  },
-  {
-    path: "/login",
-    element: <LoginPage />,
+    children: [
+      {
+        path: "sign-in",
+        element: <SignInModal/>
+      },
+      {
+        path: "sign-up",
+        element: <></>
+      },
+      {
+        path: "create-room",
+        element: <CreateRoomModal/>
+      }
+    ]
   },
   {
     path: "/room/:sessionId",
