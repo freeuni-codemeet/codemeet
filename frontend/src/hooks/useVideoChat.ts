@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect } from "react";
 import {
   OpenVidu,
   Publisher,
@@ -8,14 +8,17 @@ import {
 } from "openvidu-browser";
 import openviduApi from "../api/openvidu";
 import { VideoChatContext } from "../context/videoChatContext";
-import { useNavigate } from "react-router-dom";
 
 interface VideoChatHookProps {
   session: Session | undefined;
   mainStreamManager: StreamManager | undefined;
   publisher: Publisher | undefined;
   subscribers: Subscriber[];
-  joinSession: (sessionId: string, userData: string, secretToken?: string) => void;
+  joinSession: (
+    sessionId: string,
+    userData: string,
+    secretToken?: string
+  ) => void;
   leaveSession: () => void;
   setMainStreamManager: React.Dispatch<
     React.SetStateAction<StreamManager | undefined>
@@ -34,7 +37,9 @@ const useVideoChat = (): VideoChatHookProps => {
     setSession,
   } = useContext(VideoChatContext);
 
-  const navigate = useNavigate();
+  const navigateToMainPageHard = () => {
+    window.location.href = window.location.origin;
+  };
 
   const leaveSession = useCallback(() => {
     if (session) {
@@ -62,7 +67,11 @@ const useVideoChat = (): VideoChatHookProps => {
     return await openviduApi.createToken(sessionId, secretToken);
   };
 
-  const joinSession = (sessionId: string, username: string, secretToken?: string) => {
+  const joinSession = (
+    sessionId: string,
+    username: string,
+    secretToken?: string
+  ) => {
     if (session) {
       return; //"already joined"
     }
@@ -99,7 +108,7 @@ const useVideoChat = (): VideoChatHookProps => {
         setSubscribers([]);
         setMainStreamManager(undefined);
         setPublisher(undefined);
-        navigate("/"); // TODO give clients info that they have been kicked out
+        navigateToMainPageHard(); // TODO give clients info that they have been kicked out
       }
     });
 

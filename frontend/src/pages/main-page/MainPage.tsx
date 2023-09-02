@@ -1,20 +1,14 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import openviduApi from "../../api/openvidu";
 import { BsCodeSlash } from "react-icons/bs";
+import GetStartedModalContent from "./GetStartedModalContent";
+import Modal from "../../components/Modal";
+import CreateRoomModalContent from "./CreateRoomModalContent";
 
 const MainPage = () => {
-  const [username, setUsername] = useState<string>("");
-
-  const navigate = useNavigate();
-
-  const onCreate = async () => {
-    const {sessionId, secretToken} = await openviduApi.createSession();
-    navigate(`/room/${sessionId}`, { state: { username: username, secretToken: secretToken} });
-  };
-
-  const handleChangeUserName = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setUsername(e.target.value);
+  const [getStartedModalOpen, setGetStartedModalOpen] =
+    useState<boolean>(false);
+  const [createRoomModalOpen, setCreateRoomModalOpen] =
+    useState<boolean>(false);
 
   return (
     <>
@@ -48,57 +42,48 @@ const MainPage = () => {
           "flex h-screen justify-center items-center bg-gradient-to-t from-slate-800 to-slate-900"
         }
       >
-        {/*<div className={"w-full md:w-2/3 flex flex-col justify-center items-center gap-10"}>*/}
-        {/*    <p className={"text-6xl text-center"}>*/}
-        {/*        Connect, Collaborate, Code <br/> with <span className={"text-sky-500 font-bold"}>Codemeet</span>*/}
-        {/*    </p>*/}
-        {/*    <div className={"flex flex-row gap-5"}>*/}
-        {/*        <button*/}
-        {/*                className="bg-sky-500 hover:bg-sky-700 px-6 py-4 text-2xl leading-5 rounded-full font-semibold text-white"*/}
-        {/*            >*/}
-        {/*                Get Started*/}
-        {/*        </button>*/}
-        {/*        <button*/}
-        {/*                className="border border-sky-700 hover:bg-slate-900 px-6 py-4 text-2xl leading-5 rounded-full font-semibold text-white"*/}
-        {/*            >*/}
-        {/*                Try Without Registration*/}
-        {/*        </button>*/}
-        {/*    </div>*/}
-        {/*</div>*/}
         <div
           className={
-            "flex flex-col justify-center border border-sky-700 rounded-xl py-8 px-12 gap-10 shadow-lg shadow-sky-950"
+            "w-full md:w-2/3 flex flex-col justify-center items-center gap-10"
           }
         >
-          <h1 className={"text-5xl"}> Create Room </h1>
-          <div className={"flex flex-col content-center items-center"}>
-            <div className={"flex flex-col gap-4 w-full"}>
-              <div className="relative">
-                <input
-                  type="text"
-                  id="username"
-                  className="block px-2.5 pb-2.5 pt-4 w-full text-lg bg-transparent rounded-lg border appearance-none text-white border-gray-600 focus:outline-none focus:ring-0 focus:border-sky-700 peer"
-                  placeholder=" "
-                  value={username}
-                  onChange={handleChangeUserName}
-                  required
-                />
-                <label
-                  htmlFor="username"
-                  className="absolute text-sm text-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-gray-900 px-2 peer-focus:px- peer-focus:text-sky-700 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 left-1"
-                >
-                  Nickname
-                </label>
-              </div>
-              <button
-                className="bg-sky-500 hover:bg-sky-700 px-5 py-3 text-lg leading-5 rounded-full font-semibold text-white"
-                onClick={onCreate}
-              >
-                Create
-              </button>
-            </div>
+          <p className={"text-6xl text-center"}>
+            Connect, Collaborate, Code <br /> with{" "}
+            <span className={"text-sky-500 font-bold"}>Codemeet</span>
+          </p>
+          <div className={"flex flex-row gap-5"}>
+            <button
+              className="bg-sky-500 hover:bg-sky-700 px-6 py-4 text-2xl leading-5 rounded-full font-semibold text-white"
+              onClick={() => setGetStartedModalOpen(true)}
+            >
+              Get Started
+            </button>
+            <button
+              className="border border-sky-700 hover:bg-slate-900 px-6 py-4 text-2xl leading-5 rounded-full font-semibold text-white"
+              onClick={() => setCreateRoomModalOpen(true)}
+            >
+              Try Without Registration
+            </button>
           </div>
         </div>
+        {getStartedModalOpen ? (
+          <Modal open={getStartedModalOpen}>
+            <GetStartedModalContent
+              closeModal={() => setGetStartedModalOpen(false)}
+            />
+          </Modal>
+        ) : (
+          <></>
+        )}
+        {createRoomModalOpen ? (
+          <Modal open={createRoomModalOpen}>
+            <CreateRoomModalContent
+              closeModal={() => setCreateRoomModalOpen(false)}
+            />
+          </Modal>
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );

@@ -7,6 +7,7 @@ import {
   BsMicFill,
   BsMicMuteFill,
 } from "react-icons/bs";
+import { FaUserAlt } from "react-icons/fa";
 
 const UserVideoComponent = ({
   streamManager,
@@ -38,10 +39,23 @@ const UserVideoComponent = ({
         <div className={"group"}>
           <div
             className={
-              "relative rounded-xl border-sky-700 group-hover:border-2"
+              "relative border rounded-xl border-sky-700 group-hover:border-2"
             }
           >
-            <video autoPlay={true} ref={videoRef} className={"rounded-xl"} />
+            <video
+              autoPlay={true}
+              ref={videoRef}
+              className={`rounded-xl w-full aspect-[4/3] ${
+                streamManager.stream.videoActive ? "visible" : "invisible"
+              }`}
+            />
+            <div
+              className={`absolute top-0 left-0 w-full h-full flex justify-center items-center ${
+                !streamManager.stream.videoActive ? "visible" : "invisible"
+              }`}
+            >
+              <FaUserAlt className={"w-5/6 h-5/6"} />
+            </div>
             <div
               className={
                 "invisible flex items-center overflow-x-hidden pl-4 rounded-t-xl text-xl absolute top-0 left-0 w-full h-10 group-hover:visible bg-slate-900 opacity-90"
@@ -78,14 +92,15 @@ const UserVideoComponent = ({
                 )}
               </div>
 
-              {streamManager !== mainStreamManager && mainStreamManager.stream.connection.role === "MODERATOR" ? (
+              {streamManager !== mainStreamManager &&
+              mainStreamManager.stream.connection.role === "MODERATOR" ? (
                 <button
                   className={
                     "bg-red-700 hover:bg-red-800 px-2 py-1 text-sm leading-5 rounded-lg font-semibold text-white "
                   }
                   onClick={() => kickOut(streamManager.stream.connection)}
                 >
-                  Kick Out
+                  Remove
                 </button>
               ) : (
                 <></>
