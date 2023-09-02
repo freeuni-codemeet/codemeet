@@ -21,7 +21,7 @@ const generateHue = () => {
   return Math.floor(Math.random() * 360);
 };
 
-const CodeEditor = ({sessionId, username} : CodeEditorProps) => {
+const CodeEditor = ({ sessionId, username }: CodeEditorProps) => {
   const [language, setLanguage] = useState("python");
   const [connection, setConnection] = useState<
     "connected" | "disconnected" | "desynchronized"
