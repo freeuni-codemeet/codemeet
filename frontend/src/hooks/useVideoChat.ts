@@ -15,7 +15,11 @@ interface VideoChatHookProps {
   mainStreamManager: StreamManager | undefined;
   publisher: Publisher | undefined;
   subscribers: Subscriber[];
-  joinSession: (sessionId: string, userData: string, secretToken?: string) => void;
+  joinSession: (
+    sessionId: string,
+    userData: string,
+    secretToken?: string
+  ) => void;
   leaveSession: () => void;
   setMainStreamManager: React.Dispatch<
     React.SetStateAction<StreamManager | undefined>
@@ -62,7 +66,11 @@ const useVideoChat = (): VideoChatHookProps => {
     return await openviduApi.createToken(sessionId, secretToken);
   };
 
-  const joinSession = (sessionId: string, username: string, secretToken?: string) => {
+  const joinSession = (
+    sessionId: string,
+    username: string,
+    secretToken?: string
+  ) => {
     if (session) {
       return; //"already joined"
     }

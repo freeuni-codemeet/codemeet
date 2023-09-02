@@ -9,8 +9,10 @@ const MainPage = () => {
   const navigate = useNavigate();
 
   const onCreate = async () => {
-    const {sessionId, secretToken} = await openviduApi.createSession();
-    navigate(`/room/${sessionId}`, { state: { username: username, secretToken: secretToken} });
+    const { sessionId, secretToken } = await openviduApi.createSession();
+    navigate(`/room/${sessionId}`, {
+      state: { username: username, secretToken: secretToken },
+    });
   };
 
   const handleChangeUserName = (e: React.ChangeEvent<HTMLInputElement>) =>
