@@ -161,8 +161,6 @@ export class OpSeq {
    * @returns {OpSeq}
    */
   static new() {
-    console.log("sssss");
-    console.log(wasm);
     var ret = wasm.opseq_new();
     return OpSeq.__wrap(ret);
   }

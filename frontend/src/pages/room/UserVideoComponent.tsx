@@ -100,7 +100,7 @@ const UserVideoComponent = ({
                   }
                   onClick={() => kickOut(streamManager.stream.connection)}
                 >
-                  Kick Out
+                  Remove
                 </button>
               ) : (
                 <></>

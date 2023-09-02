@@ -40,8 +40,8 @@ const VideoChat = ({ sessionId, username, secretToken }: VideoChatProps) => {
   );
 
   useEffect(() => {
-    window.addEventListener("popstate", onBrowserBack);
-    return window.removeEventListener("popstate", onBrowserBack);
+    window.addEventListener("popstate", (e) => onBrowserBack(e));
+    return window.removeEventListener("popstate", (e) => onBrowserBack(e));
   }, [onBrowserBack]);
 
   useEffect(() => {
