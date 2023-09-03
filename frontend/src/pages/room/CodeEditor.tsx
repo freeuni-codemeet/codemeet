@@ -1,9 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import Editor from "@monaco-editor/react";
+import { Editor, useMonaco } from "@monaco-editor/react";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 import languages from "../../rustpad/languages.json";
-import { useParams } from "react-router-dom";
 import Rustpad from "../../rustpad/rustpad";
+
+interface CodeEditorProps {
+  sessionId: string;
+  username: string;
+}
 
 const getWsUri = (sessionId: string) => {
   return (
@@ -13,24 +17,31 @@ const getWsUri = (sessionId: string) => {
   );
 };
 
-const generateName = () => {
-  return "Anonymous" + Math.floor(Math.random() * 360);
-};
-
 const generateHue = () => {
   return Math.floor(Math.random() * 360);
 };
 
-const CodeEditor = () => {
-  const [language, setLanguage] = useState("plaintext");
+const CodeEditor = ({ sessionId, username }: CodeEditorProps) => {
+  const [language, setLanguage] = useState("python");
   const [connection, setConnection] = useState<
     "connected" | "disconnected" | "desynchronized"
   >("disconnected");
-  const [name, setName] = useState(generateName());
   const [hue, setHue] = useState(generateHue());
   const [editor, setEditor] = useState<editor.IStandaloneCodeEditor>();
   const rustpad = useRef<Rustpad>();
-  const { sessionId } = useParams();
+  const monaco = useMonaco();
+
+  useEffect(() => {
+    monaco?.editor.defineTheme("my-theme", {
+      base: "vs-dark",
+      inherit: true,
+      rules: [],
+      colors: {
+        "editor.background": "#1e293b", //slate-800
+      },
+    });
+    monaco?.editor.setTheme("my-theme");
+  }, [sessionId, monaco]);
 
   useEffect(() => {
     if (editor?.getModel() && sessionId) {
@@ -60,30 +71,15 @@ const CodeEditor = () => {
 
   useEffect(() => {
     if (connection === "connected") {
-      rustpad.current?.setInfo({ name, hue });
+      rustpad.current?.setInfo({ name: username, hue });
     }
-  }, [connection, name, hue]);
+  }, [connection, username, hue]);
 
   return (
-    <div
-      style={{
-        flexDirection: "column",
-        marginLeft: "auto",
-        height: "70vh",
-        overflow: "hidden",
-      }}
-    >
-      <div
-        style={{
-          flex: 1,
-          height: "100%",
-          flexDirection: "column",
-          overflow: "hidden",
-        }}
-      >
-        <div style={{ flex: 1, height: "100%" }}>
+    <div className={"flex flex-col ml-auto h-screen overflow-hidden"}>
+      <div className={"flex-1 flex-col h-full"}>
+        <div className={"flex-1 h-full"}>
           <Editor
-            theme={"vs-dark"}
             language={language}
             options={{
               automaticLayout: true,

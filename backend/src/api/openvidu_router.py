@@ -2,7 +2,7 @@ from dependency_injector.wiring import Provide, inject
 from fastapi import APIRouter, Depends
 
 from backend.src.app.containers import Container
-from backend.src.service.openvidu_service import OpenviduService
+from backend.src.service.openvidu_service import CreateSessionResponse, OpenviduService
 
 openvidu_router = APIRouter(prefix="/api/sessions")
 
@@ -11,7 +11,7 @@ openvidu_router = APIRouter(prefix="/api/sessions")
 @inject
 async def create_session(
     openvidu_service: OpenviduService = Depends(Provide[Container.openvidu_service]),
-) -> str:
+) -> CreateSessionResponse:
     return await openvidu_service.create_session()
 
 
@@ -28,6 +28,7 @@ async def join_session(
 @inject
 async def create_connection(
     session_id: str,
+    secret_token: str | None = None,
     openvidu_service: OpenviduService = Depends(Provide[Container.openvidu_service]),
 ) -> str:
-    return await openvidu_service.create_connection(session_id)
+    return await openvidu_service.create_connection(session_id, secret_token)
