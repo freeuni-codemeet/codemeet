@@ -29,7 +29,7 @@ const Room = () => {
         params: {
           language: selectedLanguage,
           encoded_code: "code_from_editor",
-          stdin:
+          stdin: ""
         },
       });
       console.log("Compilation result:", response.data);
@@ -66,16 +66,16 @@ const Room = () => {
                 <div>
                   <label htmlFor="languageSelect">Select Language:</label>
                   <select
-                    id="languageSelect"
-                    value={selectedLanguage}
-                    onChange={handleLanguageChange}
-                    className="ml-2 p-2 border border-gray-400 rounded"
-                  >
-                    <option value="python">Python</option>
-                    <option value="java">Java</option>
-                    <option value="cpp">C++</option>
-                    <option value="c">C</option>
-                  </select>
+                      id="languageSelect"
+                      value={selectedLanguage}
+                      onChange={handleLanguageChange}
+                      className="ml-2 p-2 border border-gray-400 rounded bg-blue-500 text-white"
+                    >
+                      <option value="python">Python</option>
+                      <option value="java">Java</option>
+                      <option value="cpp">C++</option>
+                      <option value="c">C</option>
+                    </select>
                 </div>
               </div>
               <CodeEditor sessionId={sessionId} username={username} />

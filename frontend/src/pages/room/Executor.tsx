@@ -16,17 +16,19 @@ const Executor: React.FC<ExecutorProps> = ({ onExecute }) => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center" , height:"30%"}}>
-      <div style={{ display: "flex", gap: "16px" }}>
+    <div className={"flex flex-col ml-auto h-[40vh] overflow-hidden"}>
+      <div className={"h-full"}>
         <textarea
+          className={`w-1/2 bg-slate-900 text-white`}
           style={{ width: "50%" }}
           rows={10}
           cols={50}
           value={inputCode}
           onChange={handleInputChange}
-          placeholder="Enter your code here..."
+          placeholder=""
         />
         <textarea
+          className={`w-1/2 bg-slate-900 text-white`}
           style={{ width: "50%" }}
           rows={10}
           cols={50}
@@ -35,7 +37,6 @@ const Executor: React.FC<ExecutorProps> = ({ onExecute }) => {
           value={"value"}
         />
       </div>
-      <button onClick={handleExecuteClick}>Execute</button>
     </div>
   );
 };

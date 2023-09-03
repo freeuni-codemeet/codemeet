@@ -76,7 +76,7 @@ const CodeEditor = ({ sessionId, username }: CodeEditorProps) => {
   }, [connection, username, hue]);
 
   return (
-    <div className={"flex flex-col ml-auto h-screen overflow-hidden"}>
+    <div className={"flex flex-col ml-auto h-[60vh] overflow-hidden"}>
       <div className={"flex-1 flex-col h-full"}>
         <div className={"flex-1 h-full"}>
           <Editor
