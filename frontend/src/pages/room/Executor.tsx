@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 
-interface CompilerProps {
-  onCompile: (code: string) => void;
+interface ExecutorProps {
+  onExecute: (code: string) => void;
 }
 
-const Compiler: React.FC<CompilerProps> = ({ onCompile }) => {
+const Executor: React.FC<ExecutorProps> = ({ onExecute }) => {
   const [inputCode, setInputCode] = useState("");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInputCode(event.target.value);
   };
 
-  const handleCompileClick = () => {
-    onCompile(inputCode);
+  const handleExecuteClick = () => {
+    onExecute(inputCode);
   };
 
   return (
@@ -30,14 +30,14 @@ const Compiler: React.FC<CompilerProps> = ({ onCompile }) => {
           style={{ width: "50%" }}
           rows={10}
           cols={50}
-          placeholder="Compiled Output"
+          placeholder="Output"
           readOnly={true}
           value={"value"}
         />
       </div>
-      <button onClick={handleCompileClick}>Compile</button>
+      <button onClick={handleExecuteClick}>Execute</button>
     </div>
   );
 };
 
-export default Compiler;
+export default Executor;

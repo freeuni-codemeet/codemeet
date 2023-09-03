@@ -4,7 +4,7 @@ import axios from "axios";
 import UserVideoComponent from "./UserVideoComponent";
 import useVideoChat from "../../hooks/useVideoChat";
 import CodeEditor from "./CodeEditor";
-import Compiler from "./Compiler"
+import Executor from "./Executor"
 
 const Room = () => {
   const navigate = useNavigate();
@@ -55,11 +55,11 @@ const Room = () => {
     setSelectedLanguage(event.target.value);
   };
 
-  const handleCompileClick = async () => {
+  const handleExecuteClick = async () => {
     try {
         console.log(selectedLanguage)
         console.log()
-      const response = await axios.get("/core-api/compiler/compile", {
+      const response = await axios.get("/core-api/executor/execute", {
         params: {
           language_id: languageIdMap[selectedLanguage],
           code: "code_from_editor",
@@ -123,7 +123,7 @@ const Room = () => {
       </div>
       <div>
       <div style={{ marginBottom: "8px" }}>
-          <button onClick={handleCompileClick}>Compile</button>
+          <button onClick={handleExecuteClick}> Execute </button>
           <select value={selectedLanguage} onChange={handleLanguageChange} style={{ marginLeft: "80px" }}>
             <option value="python">Python</option>
             <option value="rust">Rust</option>
@@ -135,7 +135,7 @@ const Room = () => {
           <CodeEditor />
         </div>
         <div>
-          <Compiler onCompile={handleCompileClick} />
+          <Executor onExecute={handleExecuteClick} />
         </div>
       </div>
     </div>
