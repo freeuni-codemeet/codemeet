@@ -1,6 +1,6 @@
 import React from "react";
-import {BsCodeSlash} from "react-icons/bs";
-import {Outlet, useNavigate} from "react-router-dom";
+import { BsCodeSlash } from "react-icons/bs";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -62,7 +62,7 @@ const MainPage = () => {
           </div>
         </div>
       </div>
-      <Outlet/>
+      <Outlet />
     </>
   );
 };

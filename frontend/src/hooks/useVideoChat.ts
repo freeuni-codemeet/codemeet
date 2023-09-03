@@ -3,7 +3,8 @@ import {
   OpenVidu,
   Publisher,
   Session,
-  StreamManager, StreamPropertyChangedEvent,
+  StreamManager,
+  StreamPropertyChangedEvent,
   Subscriber,
 } from "openvidu-browser";
 import openviduApi from "../api/openvidu";

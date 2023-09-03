@@ -12,17 +12,17 @@ const router = createBrowserRouter([
     children: [
       {
         path: "sign-in",
-        element: <SignInModal/>
+        element: <SignInModal />,
       },
       {
         path: "sign-up",
-        element: <></>
+        element: <></>,
       },
       {
         path: "create-room",
-        element: <CreateRoomModal/>
-      }
-    ]
+        element: <CreateRoomModal />,
+      },
+    ],
   },
   {
     path: "/room/:sessionId",
