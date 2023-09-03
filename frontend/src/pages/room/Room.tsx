@@ -5,6 +5,7 @@ import VideoChat from "./VideoChat";
 import Modal from "../../components/Modal";
 import UsernameInputModal from "./UsernameInputModal";
 import Executor from "./Executor";
+import axios from "axios";
 
 const Room = () => {
   const { state } = useLocation();
@@ -24,13 +25,13 @@ const Room = () => {
 
   const executeCode = async () => {
     try {
-      const encoded_code = btoa(codeFromEditor);
-      const response = await axios.get("/core-api/executor/execute", {
-        params: {
-          language: selectedLanguage,
-          encoded_code: "code_from_editor",
-          stdin: ""
-        },
+      const encoded_code = btoa("print('Hello world')");
+      const encoded_stdin = btoa(codeInput);
+      console.log(codeInput);
+      const response = await axios.post("/core-api/executor/execute", {
+        language_id: languageIdMap[selectedLanguage],
+        source_code: encoded_code,
+        stdin: encoded_stdin,
       });
       console.log("Compilation result:", response.data);
     } catch (error) {
