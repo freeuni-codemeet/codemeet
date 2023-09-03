@@ -52,7 +52,7 @@ const CreateRoomModal = () => {
               </div>
               <button
                 onClick={onCreate}
-                className="w-full text-white focus:ring-4 focus:outline-none font-medium rounded-lg text-xl px-5 py-2.5 text-center bg-sky-600 hover:bg-sky-700"
+                className="w-full text-white focus:ring-2 focus:outline-none font-medium rounded-lg text-xl px-5 py-2.5 text-center bg-sky-600 hover:bg-sky-700"
               >
                 Create Room
               </button>

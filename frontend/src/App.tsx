@@ -4,6 +4,7 @@ import Room from "./pages/room/Room";
 import { VideoChatContextProvider } from "./context/videoChatContext";
 import SignInModal from "./pages/main-page/SignInModal";
 import CreateRoomModal from "./pages/main-page/CreateRoomModal";
+import SignUpModal from "./pages/main-page/SignUpModal";
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
       },
       {
         path: "sign-up",
-        element: <></>,
+        element: <SignUpModal />,
       },
       {
         path: "create-room",

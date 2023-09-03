@@ -49,7 +49,7 @@ const MainPage = () => {
           <div className={"flex flex-row gap-5"}>
             <button
               className="bg-sky-500 hover:bg-sky-700 px-6 py-4 text-2xl leading-5 rounded-full font-semibold text-white"
-              onClick={() => navigate("/sign-in")}
+              onClick={() => navigate("/sign-up")}
             >
               Get Started
             </button>
