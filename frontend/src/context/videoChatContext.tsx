@@ -2,11 +2,15 @@ import React, { createContext, PropsWithChildren, useState } from "react";
 import {
   Publisher,
   Session,
-  StreamManager,
+  StreamManager, StreamPropertyChangedEvent,
   Subscriber,
 } from "openvidu-browser";
 
 interface VideoChatContextProps {
+  streamPropertyChangeEvent: StreamPropertyChangedEvent | undefined;
+  setStreamPropertyChangeEvent: React.Dispatch<
+    React.SetStateAction<StreamPropertyChangedEvent | undefined>
+  >;
   mainStreamManager: StreamManager | undefined;
   setMainStreamManager: React.Dispatch<
     React.SetStateAction<StreamManager | undefined>
@@ -20,6 +24,8 @@ interface VideoChatContextProps {
 }
 
 export const VideoChatContext = createContext<VideoChatContextProps>({
+  streamPropertyChangeEvent: undefined,
+  setStreamPropertyChangeEvent: () => null,
   mainStreamManager: undefined,
   setMainStreamManager: () => null,
   publisher: undefined,
@@ -33,6 +39,7 @@ export const VideoChatContext = createContext<VideoChatContextProps>({
 export const VideoChatContextProvider = ({
   children,
 }: PropsWithChildren<{}>) => {
+  const [streamPropertyChangeEvent, setStreamPropertyChangeEvent] = useState<StreamPropertyChangedEvent | undefined>(undefined);
   const [mainStreamManager, setMainStreamManager] = useState<
     StreamManager | undefined
   >(undefined);
@@ -42,6 +49,8 @@ export const VideoChatContextProvider = ({
   const [session, setSession] = useState<Session | undefined>();
 
   const value = {
+    streamPropertyChangeEvent,
+    setStreamPropertyChangeEvent,
     mainStreamManager,
     setMainStreamManager,
     publisher,

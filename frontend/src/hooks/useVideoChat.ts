@@ -3,7 +3,7 @@ import {
   OpenVidu,
   Publisher,
   Session,
-  StreamManager,
+  StreamManager, StreamPropertyChangedEvent,
   Subscriber,
 } from "openvidu-browser";
 import openviduApi from "../api/openvidu";
@@ -12,6 +12,7 @@ import { VideoChatContext } from "../context/videoChatContext";
 interface VideoChatHookProps {
   session: Session | undefined;
   mainStreamManager: StreamManager | undefined;
+  streamPropertyChanged: StreamPropertyChangedEvent | undefined;
   publisher: Publisher | undefined;
   subscribers: Subscriber[];
   joinSession: (
@@ -27,6 +28,8 @@ interface VideoChatHookProps {
 
 const useVideoChat = (): VideoChatHookProps => {
   const {
+    streamPropertyChangeEvent,
+    setStreamPropertyChangeEvent,
     mainStreamManager,
     setMainStreamManager,
     publisher,
@@ -112,6 +115,10 @@ const useVideoChat = (): VideoChatHookProps => {
       }
     });
 
+    sessionTmp.on("streamPropertyChanged", (event) => {
+      setStreamPropertyChangeEvent(event);
+    });
+
     setSession(sessionTmp);
 
     getToken(sessionId, secretToken).then((token) => {
@@ -151,6 +158,7 @@ const useVideoChat = (): VideoChatHookProps => {
   return {
     session: session,
     mainStreamManager: mainStreamManager,
+    streamPropertyChanged: streamPropertyChangeEvent,
     publisher: publisher,
     subscribers: subscribers,
     joinSession: joinSession,
