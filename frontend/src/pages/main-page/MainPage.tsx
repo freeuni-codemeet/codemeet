@@ -1,14 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { BsCodeSlash } from "react-icons/bs";
-import GetStartedModalContent from "./GetStartedModalContent";
-import Modal from "../../components/Modal";
-import CreateRoomModalContent from "./CreateRoomModalContent";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const MainPage = () => {
-  const [getStartedModalOpen, setGetStartedModalOpen] =
-    useState<boolean>(false);
-  const [createRoomModalOpen, setCreateRoomModalOpen] =
-    useState<boolean>(false);
+  const navigate = useNavigate();
 
   return (
     <>
@@ -54,37 +49,20 @@ const MainPage = () => {
           <div className={"flex flex-row gap-5"}>
             <button
               className="bg-sky-500 hover:bg-sky-700 px-6 py-4 text-2xl leading-5 rounded-full font-semibold text-white"
-              onClick={() => setGetStartedModalOpen(true)}
+              onClick={() => navigate("/sign-up")}
             >
               Get Started
             </button>
             <button
               className="border border-sky-700 hover:bg-slate-900 px-6 py-4 text-2xl leading-5 rounded-full font-semibold text-white"
-              onClick={() => setCreateRoomModalOpen(true)}
+              onClick={() => navigate("/create-room")}
             >
               Try Without Registration
             </button>
           </div>
         </div>
-        {getStartedModalOpen ? (
-          <Modal open={getStartedModalOpen}>
-            <GetStartedModalContent
-              closeModal={() => setGetStartedModalOpen(false)}
-            />
-          </Modal>
-        ) : (
-          <></>
-        )}
-        {createRoomModalOpen ? (
-          <Modal open={createRoomModalOpen}>
-            <CreateRoomModalContent
-              closeModal={() => setCreateRoomModalOpen(false)}
-            />
-          </Modal>
-        ) : (
-          <></>
-        )}
       </div>
+      <Outlet />
     </>
   );
 };
