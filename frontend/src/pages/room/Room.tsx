@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , createContext, useContext } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import CodeEditor from "./CodeEditor";
 import VideoChat from "./VideoChat";
@@ -6,6 +6,8 @@ import Modal from "../../components/Modal";
 import UsernameInputModal from "./UsernameInputModal";
 import Executor from "./Executor";
 import axios from "axios";
+import {  ExecuteContext } from "../../context/RoomContext";
+
 
 const Room = () => {
   const { state } = useLocation();
@@ -23,16 +25,26 @@ const Room = () => {
     setSelectedLanguage(event.target.value);
   };
 
+
+  const {
+    stdin,
+    stdout,
+    rustpad,
+    setStdout,
+  } = useContext(ExecuteContext);
+
   const executeCode = async () => {
     try {
-      const encoded_code = btoa("print('Hello world')");
-      const encoded_stdin = btoa(codeInput);
-      console.log(codeInput);
+      const encoded_code = btoa(rustpad.current.lastValue);
+      const encoded_stdin = btoa(stdin);
       const response = await axios.post("/core-api/executor/execute", {
         language_id: languageIdMap[selectedLanguage],
         source_code: encoded_code,
         stdin: encoded_stdin,
       });
+      const responseData = response.data;
+      const decodedStdout = atob(responseData.stdout);
+      setStdout(decodedStdout);
       console.log("Compilation result:", response.data);
     } catch (error) {
       console.error("Error compiling:", error);

@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { Editor, useMonaco } from "@monaco-editor/react";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
 import languages from "../../rustpad/languages.json";
 import Rustpad from "../../rustpad/rustpad";
+import { ExecuteContext } from "../../context/RoomContext";
 
 interface CodeEditorProps {
   sessionId: string;
@@ -28,8 +29,12 @@ const CodeEditor = ({ sessionId, username }: CodeEditorProps) => {
   >("disconnected");
   const [hue, setHue] = useState(generateHue());
   const [editor, setEditor] = useState<editor.IStandaloneCodeEditor>();
-  const rustpad = useRef<Rustpad>();
   const monaco = useMonaco();
+
+  const {
+    rustpad,
+  } = useContext(ExecuteContext);
+
 
   useEffect(() => {
     monaco?.editor.defineTheme("my-theme", {

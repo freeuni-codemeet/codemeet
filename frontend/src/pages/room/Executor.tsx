@@ -1,19 +1,20 @@
 import React, { useState } from "react";
+import { useContext } from "react";
+import { ExecuteContext } from "../../context/RoomContext";
 
-interface ExecutorProps {
-  onExecute: (code: string) => void;
-}
 
-const Executor: React.FC<ExecutorProps> = ({ onExecute }) => {
-  const [inputCode, setInputCode] = useState("");
+
+const Executor: React.FC<ExecuteContext> = () => {
+  const {
+    stdin,
+    stdout,
+    setStdin,
+  } = useContext(ExecuteContext);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInputCode(event.target.value);
+    setStdin(event.target.value);
   };
 
-  const handleExecuteClick = () => {
-    onExecute(inputCode);
-  };
 
   return (
     <div className={"flex flex-col ml-auto h-[40vh] overflow-hidden"}>
@@ -23,7 +24,7 @@ const Executor: React.FC<ExecutorProps> = ({ onExecute }) => {
           style={{ width: "50%" }}
           rows={10}
           cols={50}
-          value={inputCode}
+          value={stdin}
           onChange={handleInputChange}
           placeholder=""
         />
@@ -32,9 +33,9 @@ const Executor: React.FC<ExecutorProps> = ({ onExecute }) => {
           style={{ width: "50%" }}
           rows={10}
           cols={50}
-          placeholder="Output"
+          placeholder=""
           readOnly={true}
-          value={"value"}
+          value={stdout}
         />
       </div>
     </div>
