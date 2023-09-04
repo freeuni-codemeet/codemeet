@@ -14,7 +14,7 @@ const UserVideoComponent = ({
 }: {
   streamManager: StreamManager;
 }) => {
-  const { mainStreamManager, session } = useVideoChat();
+  const { streamPropertyChanged, mainStreamManager, session } = useVideoChat();
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -33,6 +33,14 @@ const UserVideoComponent = ({
     }
   };
 
+  const videoActive = useMemo(() => {
+    return streamManager.stream.videoActive;
+  }, [streamManager.stream.videoActive, streamPropertyChanged]);
+
+  const audioActive = useMemo(() => {
+    return streamManager.stream.audioActive;
+  }, [streamManager.stream.audioActive, streamPropertyChanged]);
+
   return (
     <div>
       {mainStreamManager && streamManager ? (
@@ -46,12 +54,12 @@ const UserVideoComponent = ({
               autoPlay={true}
               ref={videoRef}
               className={`rounded-xl w-full aspect-[4/3] ${
-                streamManager.stream.videoActive ? "visible" : "invisible"
+                videoActive ? "visible" : "invisible"
               }`}
             />
             <div
               className={`absolute top-0 left-0 w-full h-full flex justify-center items-center ${
-                !streamManager.stream.videoActive ? "visible" : "invisible"
+                !videoActive ? "visible" : "invisible"
               }`}
             >
               <FaUserAlt className={"w-5/6 h-5/6"} />
@@ -72,7 +80,7 @@ const UserVideoComponent = ({
               }
             >
               <div className={"flex items-center gap-3"}>
-                {streamManager.stream.videoActive ? (
+                {videoActive ? (
                   <BsFillCameraVideoFill
                     className={"w-8 h-8 p-1 bg-gray-800 rounded-full"}
                   />
@@ -81,7 +89,7 @@ const UserVideoComponent = ({
                     className={"w-8 h-8 p-1 bg-red-700 rounded-full"}
                   />
                 )}
-                {streamManager.stream.audioActive ? (
+                {audioActive ? (
                   <BsMicFill
                     className={"w-8 h-8 p-1 bg-gray-800 rounded-full"}
                   />
