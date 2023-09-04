@@ -31,6 +31,7 @@ const Room = () => {
     stdout,
     rustpad,
     setStdout,
+    setOutputColor,
   } = useContext(ExecuteContext);
 
   const executeCode = async () => {
@@ -42,8 +43,10 @@ const Room = () => {
         source_code: encoded_code,
         stdin: encoded_stdin,
       });
-      const responseData = response.data;
-      const decodedStdout = atob(responseData.stdout);
+      const id = response.data.status.id;
+      const responseData = (id === 3) ? response.data.stdout : response.data.stderr;
+      setOutputColor((id === 3) ? "white" : "red-700");
+      const decodedStdout = atob(responseData);
       setStdout(decodedStdout);
       console.log("Compilation result:", response.data);
     } catch (error) {

@@ -9,6 +9,7 @@ const Executor: React.FC<ExecuteContext> = () => {
     stdin,
     stdout,
     setStdin,
+    output_color,
   } = useContext(ExecuteContext);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -29,7 +30,7 @@ const Executor: React.FC<ExecuteContext> = () => {
           placeholder=""
         />
         <textarea
-          className={`w-1/2 bg-slate-900 text-white`}
+          className={`w-1/2 bg-slate-900 text-${output_color}`}
           style={{ width: "50%" }}
           rows={10}
           cols={50}

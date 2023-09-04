@@ -12,15 +12,18 @@ export const ExecuteContext = createContext<ExecuteContextProps>({
   stdin: "",
   stdout: "",
   rustpad: undefined,
+  output_color: "",
   setStdin: () => null,
   setStdout: () => null,
+  setOutputColor: () => null,
 });
 
 export const ExecuteContextProvider = ({
   children,
 }: PropsWithChildren<{}>) => {
-  const [stdin, setStdin] = useState<"" | undefined>("");
-  const [stdout, setStdout] = useState<"" | undefined>("");
+  const [stdin, setStdin] = useState<str | undefined>("");
+  const [stdout, setStdout] = useState<str | undefined>("");
+  const [output_color, setOutputColor] = useState<str | undefined>("white");
   const rustpad = useRef<Rustpad>();
 
 
@@ -28,8 +31,10 @@ export const ExecuteContextProvider = ({
     stdin,
     stdout,
     rustpad,
+    output_color,
     setStdin,
     setStdout,
+    setOutputColor,
   };
 
   return (
