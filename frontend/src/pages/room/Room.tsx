@@ -14,7 +14,7 @@ import languageMap from "../../../languages.json";
 const Room = () => {
   const { state } = useLocation();
   const { sessionId } = useParams();
-  const [selectedLanguage, setSelectedLanguage] = useState("python");
+
 
 
   const handleLanguageChange = (event) => {
@@ -26,8 +26,10 @@ const Room = () => {
     stdin,
     stdout,
     rustpad,
+    selectedLanguage,
     setStdout,
     setOutputColor,
+    setSelectedLanguage,
   } = useContext(ExecuteContext);
 
   const executeCode = async () => {

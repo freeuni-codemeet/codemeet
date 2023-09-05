@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, useContext } from "react";
 import { Editor, useMonaco } from "@monaco-editor/react";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
-import languages from "../../rustpad/languages.json";
 import Rustpad from "../../rustpad/rustpad";
 import { ExecuteContext } from "../../context/RoomContext";
 
@@ -23,7 +22,6 @@ const generateHue = () => {
 };
 
 const CodeEditor = ({ sessionId, username }: CodeEditorProps) => {
-  const [language, setLanguage] = useState("python");
   const [connection, setConnection] = useState<
     "connected" | "disconnected" | "desynchronized"
   >("disconnected");
@@ -33,6 +31,8 @@ const CodeEditor = ({ sessionId, username }: CodeEditorProps) => {
 
   const {
     rustpad,
+    selectedLanguage,
+    setSelectedLanguage,
   } = useContext(ExecuteContext);
 
 
@@ -61,10 +61,8 @@ const CodeEditor = ({ sessionId, username }: CodeEditorProps) => {
         onDesynchronized: () => {
           setConnection("desynchronized");
         },
-        onChangeLanguage: (language) => {
-          if (languages.includes(language)) {
-            setLanguage(language);
-          }
+        onChangeLanguage: (selectedLanguage) => {
+            setSelectedLanguage(selectedLanguage);
         },
       });
       return () => {
@@ -85,7 +83,7 @@ const CodeEditor = ({ sessionId, username }: CodeEditorProps) => {
       <div className={"flex-1 flex-col h-full"}>
         <div className={"flex-1 h-full"}>
           <Editor
-            language={language}
+            language={selectedLanguage}
             options={{
               automaticLayout: true,
               fontSize: 13,
