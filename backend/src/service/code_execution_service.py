@@ -8,8 +8,9 @@ class CodeExecutionService:
     def __init__(self, configuration: Configuration):
         self.configuration = configuration
 
-    async def execute(self, language_id: int, encoded_code: str, stdin: str) -> Response:
-
+    async def execute(
+        self, language_id: int, encoded_code: str, stdin: str
+    ) -> Response:
         payload = {
             "language_id": language_id,
             "source_code": encoded_code,
@@ -24,5 +25,8 @@ class CodeExecutionService:
         }
 
         async with httpx.AsyncClient() as client:
-            return await client.post(self.configuration.JUDGE0_RAPID_API_EXECUTOR_ENDPOINT_URL, json=payload, headers=headers)
-
+            return await client.post(
+                self.configuration.JUDGE0_RAPID_API_EXECUTOR_ENDPOINT_URL,
+                json=payload,
+                headers=headers,
+            )

@@ -18,7 +18,9 @@ class CreateSessionResponse:
 
 
 class OpenviduService:
-    def __init__(self, openvidu_connector: OpenviduConnector, configuration: Configuration):
+    def __init__(
+        self, openvidu_connector: OpenviduConnector, configuration: Configuration
+    ):
         self.openvidu_connector = openvidu_connector
         self.configuration = configuration
 
@@ -28,13 +30,17 @@ class OpenviduService:
             "permission": openviduRole.name,
             "expiry": time.time() + 30,
         }
-        token = jwt.encode(payload=payload, key=self.configuration.JWT_SECRET, algorithm=JWT_ALGORITHM)
+        token = jwt.encode(
+            payload=payload, key=self.configuration.JWT_SECRET, algorithm=JWT_ALGORITHM
+        )
         return token
 
     def _verifyJwt(self, session_id: str, token: str | None) -> bool:
         if token is None:
             return False
-        decoded = jwt.decode(jwt=token, key=self.configuration.JWT_SECRET, algorithm=JWT_ALGORITHM)
+        decoded = jwt.decode(
+            jwt=token, key=self.configuration.JWT_SECRET, algorithm=JWT_ALGORITHM
+        )
         return (
             decoded.get("permission") == OpenviduRole.MODERATOR.name
             and decoded.get("sessionId") == session_id

@@ -35,9 +35,9 @@ const router = createBrowserRouter([
 const App = () => {
   return (
     <ExecuteContextProvider>
-        <VideoChatContextProvider>
-          <RouterProvider router={router} />
-        </VideoChatContextProvider>
+      <VideoChatContextProvider>
+        <RouterProvider router={router} />
+      </VideoChatContextProvider>
     </ExecuteContextProvider>
   );
 };

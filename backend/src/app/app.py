@@ -2,9 +2,9 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 
 from backend.src.api.auth_router import auth_router
+from backend.src.api.code_execution_router import code_execution_router
 from backend.src.api.openvidu_router import openvidu_router
 from backend.src.app.containers import Container
-from backend.src.api.code_execution_router import code_execution_router
 
 
 def create_application() -> FastAPI:

@@ -8,13 +8,17 @@ from backend.src.service.openvidu_service import OpenviduService
 
 
 class Container(containers.DeclarativeContainer):
-    wiring_config = containers.WiringConfiguration(modules=["..api.openvidu_router", "..api.code_execution_router"])
+    wiring_config = containers.WiringConfiguration(
+        modules=["..api.openvidu_router", "..api.code_execution_router"]
+    )
 
     configuration = providers.Singleton(Configuration)
 
     openvidu_connector = providers.Singleton(OpenviduConnector, configuration)
 
-    openvidu_service = providers.Singleton(OpenviduService, openvidu_connector, configuration)
+    openvidu_service = providers.Singleton(
+        OpenviduService, openvidu_connector, configuration
+    )
 
     auth_service = providers.Singleton(AuthService)
 
