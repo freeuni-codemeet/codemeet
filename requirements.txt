@@ -16,5 +16,4 @@ PyJWT==1.7.1
 python-decouple
 itsdangerous
 google-auth
-requests~=2.31.0
 google~=3.0.0

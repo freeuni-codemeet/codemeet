@@ -38,8 +38,16 @@ const Room = () => {
       const encoded_stdin = btoa(stdin);
       const response = await codeExecutorApi.executeCode(languageMap.languages[selectedLanguage], encoded_code, encoded_stdin);
       const id = response.status.id;
-      const responseData = (id === 3) ? response.stdout : response.stderr;
-      setOutputColor((id === 3) ? "white" : "red-700");
+      let responseData;
+      switch (id) {
+          case 3:
+          case 6:
+            responseData = response.compile_output;
+            break;
+          default:
+            responseData = response.stderr;
+      }
+      setOutputColor((id !== 3) ? "red-700" : "white");
       const decodedStdout = atob(responseData);
       setStdout(decodedStdout);
       console.log("Compilation result:", response);

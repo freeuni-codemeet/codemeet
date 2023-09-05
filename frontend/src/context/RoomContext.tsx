@@ -28,7 +28,7 @@ export const ExecuteContextProvider = ({
   const [stdin, setStdin] = useState<str | undefined>("");
   const [stdout, setStdout] = useState<str | undefined>("");
   const [output_color, setOutputColor] = useState<str | undefined>("white");
-  const [selectedLanguage, setSelectedLanguage] = useState("python");
+  const [selectedLanguage, setSelectedLanguage] = useState<str | undefined>("python");
   const rustpad = useRef<Rustpad>();
 
 
