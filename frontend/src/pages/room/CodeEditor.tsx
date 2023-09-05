@@ -1,8 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
 import { Editor, useMonaco } from "@monaco-editor/react";
 import { editor } from "monaco-editor/esm/vs/editor/editor.api";
-import languages from "../../rustpad/languages.json";
 import Rustpad from "../../rustpad/rustpad";
+import { ExecuteContext } from "../../context/RoomContext";
 
 interface CodeEditorProps {
   sessionId: string;
@@ -22,14 +22,19 @@ const generateHue = () => {
 };
 
 const CodeEditor = ({ sessionId, username }: CodeEditorProps) => {
-  const [language, setLanguage] = useState("python");
   const [connection, setConnection] = useState<
     "connected" | "disconnected" | "desynchronized"
   >("disconnected");
   const [hue, setHue] = useState(generateHue());
   const [editor, setEditor] = useState<editor.IStandaloneCodeEditor>();
-  const rustpad = useRef<Rustpad>();
   const monaco = useMonaco();
+
+  const {
+    rustpad,
+    selectedLanguage,
+    setSelectedLanguage,
+  } = useContext(ExecuteContext);
+
 
   useEffect(() => {
     monaco?.editor.defineTheme("my-theme", {
@@ -56,10 +61,8 @@ const CodeEditor = ({ sessionId, username }: CodeEditorProps) => {
         onDesynchronized: () => {
           setConnection("desynchronized");
         },
-        onChangeLanguage: (language) => {
-          if (languages.includes(language)) {
-            setLanguage(language);
-          }
+        onChangeLanguage: (selectedLanguage) => {
+            setSelectedLanguage(selectedLanguage);
         },
       });
       return () => {
@@ -76,11 +79,11 @@ const CodeEditor = ({ sessionId, username }: CodeEditorProps) => {
   }, [connection, username, hue]);
 
   return (
-    <div className={"flex flex-col ml-auto h-screen overflow-hidden"}>
+    <div className={"flex flex-col ml-auto h-[60vh] overflow-hidden"}>
       <div className={"flex-1 flex-col h-full"}>
         <div className={"flex-1 h-full"}>
           <Editor
-            language={language}
+            language={selectedLanguage}
             options={{
               automaticLayout: true,
               fontSize: 13,

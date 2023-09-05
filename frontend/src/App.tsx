@@ -5,6 +5,7 @@ import { VideoChatContextProvider } from "./context/videoChatContext";
 import SignInModal from "./pages/main-page/SignInModal";
 import CreateRoomModal from "./pages/main-page/CreateRoomModal";
 import SignUpModal from "./pages/main-page/SignUpModal";
+import { ExecuteContextProvider } from "./context/RoomContext";
 
 const router = createBrowserRouter([
   {
@@ -33,9 +34,11 @@ const router = createBrowserRouter([
 
 const App = () => {
   return (
-    <VideoChatContextProvider>
-      <RouterProvider router={router} />
-    </VideoChatContextProvider>
+    <ExecuteContextProvider>
+        <VideoChatContextProvider>
+          <RouterProvider router={router} />
+        </VideoChatContextProvider>
+    </ExecuteContextProvider>
   );
 };
 
