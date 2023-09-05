@@ -48,6 +48,12 @@ const Room = () => {
     }
   };
 
+  const languageOptions = Object.keys(languageMap.languages).map((language) => (
+    <option key={language} value={language}>
+      {language}
+    </option>
+  ));
+
   const getAppropriateElement = (
     sessionId: string | undefined,
     username: string | undefined
@@ -81,10 +87,7 @@ const Room = () => {
                       onChange={handleLanguageChange}
                       className="ml-2 p-2 border border-gray-400 rounded bg-blue-500 text-white"
                     >
-                      <option value="python">Python</option>
-                      <option value="java">Java</option>
-                      <option value="cpp">C++</option>
-                      <option value="c">C</option>
+                      {languageOptions}
                     </select>
                 </div>
               </div>
