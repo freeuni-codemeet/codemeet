@@ -7,6 +7,7 @@ import UsernameInputModal from "./UsernameInputModal";
 import Executor from "./Executor";
 import axios from "axios";
 import {  ExecuteContext } from "../../context/RoomContext";
+import codeExecutorApi from "../../api/codeExecutor";
 
 
 const Room = () => {
@@ -38,17 +39,13 @@ const Room = () => {
     try {
       const encoded_code = btoa(rustpad.current.lastValue);
       const encoded_stdin = btoa(stdin);
-      const response = await axios.post("/core-api/executor/execute", {
-        language_id: languageIdMap[selectedLanguage],
-        source_code: encoded_code,
-        stdin: encoded_stdin,
-      });
-      const id = response.data.status.id;
-      const responseData = (id === 3) ? response.data.stdout : response.data.stderr;
+      const response = await codeExecutorApi.executeCode(languageIdMap[selectedLanguage], encoded_code, encoded_stdin);
+      const id = response.status.id;
+      const responseData = (id === 3) ? response.stdout : response.stderr;
       setOutputColor((id === 3) ? "white" : "red-700");
       const decodedStdout = atob(responseData);
       setStdout(decodedStdout);
-      console.log("Compilation result:", response.data);
+      console.log("Compilation result:", response);
     } catch (error) {
       console.error("Error compiling:", error);
     }
