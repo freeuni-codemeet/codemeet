@@ -4,7 +4,7 @@ import languageMap from "../../../languages.json";
 import {ExecuteContext} from "../../context/RoomContext";
 import {BsFillCameraVideoFill, BsFillCameraVideoOffFill, BsMicFill, BsMicMuteFill} from "react-icons/bs";
 import useVideoChat from "../../hooks/useVideoChat";
-import {FaPlay} from "react-icons/fa";
+import { FaPlay, FaRegCopy } from "react-icons/fa";
 
 interface ControlPanelProps {
     sessionId: string;
@@ -95,7 +95,7 @@ const ControlPanel = ({sessionId, username, secretToken}: ControlPanelProps) => 
                 default:
                     responseData = response.stderr;
             }
-            setOutputColor((id !== 3) ? "red-700" : "white");
+            setOutputColor((id !== 3) ? "text-red-700" : "text-white");
             const decodedStdout = window.atob(responseData);
             setStdout(decodedStdout);
             console.log("Compilation result:", response);
@@ -114,19 +114,24 @@ const ControlPanel = ({sessionId, username, secretToken}: ControlPanelProps) => 
 
     return (
         <div className={"flex flex-row justify-between items-center"}>
-            <div className={"flex flex-row py-4 gap-3 items-center"}>
+            <div className={"flex flex-row py-2 gap-3 items-center"}>
+            <FaRegCopy
+                      className={"w-9 h-9 p-2 bg-gray-800 hover:bg-gray-700 rounded-full cursor-pointer"}
+                        onClick={() => {navigator.clipboard.writeText(window.location.href)}}
+                      >
+                    </FaRegCopy>
                 {videoEnabled ? (
                     <BsFillCameraVideoFill
                         onClick={handleTurnOffVideo}
                         className={
-                            "w-10 h-10 p-2 bg-gray-800 hover:bg-gray-700 rounded-full cursor-pointer"
+                            "w-9 h-9 p-2 bg-gray-800 hover:bg-gray-700 rounded-full cursor-pointer"
                         }
                     />
                 ) : (
                     <BsFillCameraVideoOffFill
                         onClick={handleTurnOffVideo}
                         className={
-                            "w-10 h-10 p-2 bg-red-700 hover:bg-red-800 rounded-full cursor-pointer"
+                            "w-9 h-9 p-2 bg-red-700 hover:bg-red-800 rounded-full cursor-pointer"
                         }
                     />
                 )}
@@ -135,21 +140,21 @@ const ControlPanel = ({sessionId, username, secretToken}: ControlPanelProps) => 
                     <BsMicFill
                         onClick={handleTurnOffAudio}
                         className={
-                            "w-10 h-10 p-2 bg-gray-800 hover:bg-gray-700 rounded-full cursor-pointer"
+                            "w-9 h-9 p-2 bg-gray-800 hover:bg-gray-700 rounded-full cursor-pointer"
                         }
                     />
                 ) : (
                     <BsMicMuteFill
                         onClick={handleTurnOffAudio}
                         className={
-                            "w-10 h-10 p-2 bg-red-700 hover:bg-red-800 rounded-full cursor-pointer"
+                            "w-9 h-9 p-2 bg-red-700 hover:bg-red-800 rounded-full cursor-pointer"
                         }
                     />
                 )}
 
                 <button
                     className={
-                        "bg-red-700 hover:bg-red-800 px-3 py-2 text leading-5 rounded-xl font-semibold text-white"
+                        "flex bg-red-700 hover:bg-red-800 px-3 py-2 text-sm leading-5 rounded-xl font-semibold text-white h-8 items-center"
                     }
                     onClick={handleLeaveSessionClicked}
                 >
@@ -163,7 +168,7 @@ const ControlPanel = ({sessionId, username, secretToken}: ControlPanelProps) => 
                         id="languageSelect"
                         value={selectedLanguage}
                         onChange={handleLanguageChange}
-                        className="bg-sky-700 hover:bg-sky-800 px-3 py-2 text leading-5 rounded-xl font-semibold text-white h-10"
+                        className="bg-sky-700 hover:bg-sky-800 px-3 py-2 text-sm leading-5 rounded-xl font-semibold text-white h-9"
                     >
                         {languageOptions}
                     </select>
@@ -172,7 +177,7 @@ const ControlPanel = ({sessionId, username, secretToken}: ControlPanelProps) => 
                     <button
                         onClick={executeCode}
                         disabled={isLoading}
-                        className="flex flex-row bg-sky-700 hover:bg-sky-800 px-3 py-2 text leading-5 rounded-xl font-semibold text-white h-10 items-center justify-center gap-2 disabled:bg-gray-500"
+                        className="flex flex-row bg-sky-700 hover:bg-sky-800 px-3 py-2 text-sm leading-5 rounded-xl font-semibold text-white h-9 items-center justify-center gap-2 disabled:bg-gray-500"
                     >
                         <FaPlay/>
                         <p>Run</p>

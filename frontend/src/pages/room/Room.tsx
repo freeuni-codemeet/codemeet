@@ -25,15 +25,15 @@ const Room = () => {
                                           username={username}
                                           secretToken={state?.secretToken}/>
                         </div>
-                        <div className={"flex flex-row h-[90%] gap-3"}>
+                        <div className={"flex flex-row flex-1 gap-3 pb-2"}>
                             <div className={"w-[29%]"}>
                                 <VideoChat/>
                             </div>
                             <div className={"w-[71%] flex flex-col gap-3"}>
-                                <div className={"h-3/4 rounded-xl p-2 bg-slate-800"}>
+                                <div className={"h-[71%] rounded-xl p-2 bg-slate-800"}>
                                     <CodeEditor sessionId={sessionId} username={username}/>
                                 </div>
-                                <div className={"flex flex-row h-1/4 bg-slate-800 rounded-xl px-4 py-2 gap-2"}>
+                                <div className={"flex flex-row h-[29%] bg-slate-800 rounded-xl px-4 py-2 gap-2"}>
                                     <Executor/>
                                 </div>
                             </div>

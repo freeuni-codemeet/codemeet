@@ -19,21 +19,21 @@ const Executor = () => {
 
     return (
         <>
-            <div className={"w-1/2 h-full space-y-1"}>
+            <div className={"flex flex-col w-1/2"}>
                 <p className={"ml-1 font-semibold"}>Input</p>
                 <textarea
-                    className={`w-full h-[85%] bg-slate-800 resize-none text-white border border-sky-900 outline-none px-2 rounded-lg`}
+                    className={`mt-0 w-full flex-1 bg-slate-800 resize-none text-white border border-sky-900 outline-none px-2 rounded-lg`}
                     value={stdin}
                     onChange={handleInputChange}
                     placeholder="Write your input here..."
                 />
             </div>
-            <div className={"w-1/2 h-[85%] space-y-1"}>
+            <div className={"flex flex-col w-1/2"}>
                 <p className={"ml-1 font-semibold"}>Output</p>
-                <div className={"flex w-full h-full border border-sky-900 rounded-lg items-center justify-center"}>
+                <div className={"flex w-full flex-1 border border-sky-900 rounded-lg items-center justify-center"}>
                     {!isLoading ?
                         <textarea
-                            className={`w-full h-full bg-slate-800 resize-none text-${outputColor} focus:outline-none px-2 rounded-lg`}
+                            className={`w-full flex-1 bg-slate-800 resize-none ${outputColor} focus:outline-none px-2 rounded-lg`}
                             placeholder=""
                             readOnly={true}
                             value={stdout}
