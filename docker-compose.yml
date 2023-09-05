@@ -1,0 +1,94 @@
+version: '3.3'
+services:
+  openvidu-server:
+    image: openvidu/openvidu-server:2.28.0
+    restart: on-failure
+    network_mode: host
+    entrypoint: ['/usr/local/bin/entrypoint.sh']
+    volumes:
+      - ./coturn:/run/secrets/coturn
+      - /var/run/docker.sock:/var/run/docker.sock
+    env_file:
+      - ./config/prod/openvidu.env
+    environment:
+      - SERVER_SSL_ENABLED=false
+      - SERVER_PORT=5443
+      - KMS_URIS=["ws://localhost:8888/kurento"]
+      - COTURN_IP=$COTURN_IP
+      - COTURN_PORT=3478
+    logging:
+      options:
+        max-size: "100M"
+
+  kms:
+    image: kurento/kurento-media-server:latest
+    restart: always
+    network_mode: host
+    ulimits:
+      core: -1
+    environment:
+      - KMS_MIN_PORT=40000
+      - KMS_MAX_PORT=57000
+      - KURENTO_LOG_FILE_SIZE=100
+      - KURENTO_LOGS_PATH=/opt/openvidu/kurento-logs
+    logging:
+      options:
+        max-size: "100M"
+
+  coturn:
+    image: openvidu/openvidu-coturn:2.28.0
+    restart: on-failure
+    ports:
+      - "3478:3478/tcp"
+      - "3478:3478/udp"
+    env_file:
+      - ./config/prod/openvidu-dev.env
+    volumes:
+      - ./coturn:/run/secrets/coturn
+    command:
+      - --log-file=stdout
+      - --listening-port=3478
+      - --fingerprint
+      - --min-port=57001
+      - --max-port=65535
+      - --realm=openvidu
+      - --verbose
+      - --use-auth-secret
+      - --static-auth-secret=$${COTURN_SHARED_SECRET_KEY}
+    logging:
+      options:
+        max-size: "${DOCKER_LOGS_MAX_SIZE:-100M}"
+
+  rustpad:
+    image: ekzhang/rustpad
+    network_mode: 'host'
+    environment:
+      - PORT=8082
+
+  core:
+    build:
+      context: .
+      dockerfile: Dockerfile.core
+    command: uvicorn backend.src.app.app:app --host 0.0.0.0 --port 8080
+    network_mode: 'host'
+    env_file:
+      - core.env
+
+  webapp:
+    build:
+      context: .
+      dockerfile: Dockerfile.webapp
+    network_mode: 'host'
+    restart: always
+    volumes:
+      - ./config/prod/nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email ${LETS_ENCRYPT_EMAIL} -d ${DOMAIN} --agree-tos
