@@ -1,136 +1,40 @@
 import useVideoChat from "../../hooks/useVideoChat";
-import React, { useCallback, useEffect, useState } from "react";
-import {
-  BsFillCameraVideoFill,
-  BsFillCameraVideoOffFill,
-  BsMicFill,
-  BsMicMuteFill,
-} from "react-icons/bs";
+import React from "react";
 import UserVideoComponent from "./UserVideoComponent";
+import Spinner from "../../components/Spinner";
 
-interface VideoChatProps {
-  sessionId: string;
-  username: string;
-  secretToken: string | undefined;
-}
+const VideoChat = () => {
+    const {
+        mainStreamManager,
+        publisher,
+        subscribers,
+    } = useVideoChat();
 
-const VideoChat = ({ sessionId, username, secretToken }: VideoChatProps) => {
-  const [videoEnabled, setVideoEnabled] = useState<boolean>(true);
-  const [audioEnabled, setAudioEnabled] = useState<boolean>(true);
 
-  const {
-    mainStreamManager,
-    publisher,
-    subscribers,
-    joinSession,
-    leaveSession,
-  } = useVideoChat();
-
-  const navigateToMainPageHard = () => {
-    window.location.href = window.location.origin;
-  };
-
-  const onBrowserBack = useCallback(
-    (e: PopStateEvent) => {
-      e.preventDefault();
-      leaveSession();
-      navigateToMainPageHard();
-    },
-    [leaveSession]
-  );
-
-  useEffect(() => {
-    window.addEventListener("popstate", (e) => onBrowserBack(e));
-    return window.removeEventListener("popstate", (e) => onBrowserBack(e));
-  }, [onBrowserBack]);
-
-  useEffect(() => {
-    joinSession(sessionId, username, secretToken);
-  }, [username, secretToken, sessionId, joinSession]);
-
-  const handleTurnOffVideo = () => {
-    const enabled = !videoEnabled;
-    publisher?.publishVideo(enabled);
-    setVideoEnabled(enabled);
-  };
-
-  const handleTurnOffAudio = () => {
-    const enabled = !audioEnabled;
-    publisher?.publishAudio(enabled);
-    setAudioEnabled(enabled);
-  };
-
-  const handleLeaveSessionClicked = () => {
-    leaveSession();
-    navigateToMainPageHard();
-  };
-
-  return (
-    <>
-      {/*TODO add skeletons*/}
-      {mainStreamManager === undefined ? (
-        <h1>loading...</h1>
-      ) : (
-        <div className={"flex flex-col max-h-screen px-2 gap-2"}>
-          <div className={"flex flex-row py-4 px-2 gap-3 items-center"}>
-            {videoEnabled ? (
-              <BsFillCameraVideoFill
-                onClick={handleTurnOffVideo}
-                className={
-                  "w-10 h-10 p-2 bg-gray-800 hover:bg-gray-700 rounded-full cursor-pointer"
-                }
-              />
+    return (
+        <>
+            {mainStreamManager === undefined ? (
+                <div className={"flex flex-col max-h-full bg-slate-800 rounded-xl min-h-full py-3 gap-3 justify-center items-center"}>
+                    <Spinner/>
+                </div>
             ) : (
-              <BsFillCameraVideoOffFill
-                onClick={handleTurnOffVideo}
-                className={
-                  "w-10 h-10 p-2 bg-red-700 hover:bg-red-800 rounded-full cursor-pointer"
-                }
-              />
+                <div className={"flex flex-col max-h-full bg-slate-800 rounded-xl min-h-full py-3 gap-3"}>
+                    <div
+                        className={"flex flex-col max-h-full overflow-y-auto px-3 gap-3"}
+                    >
+                        {publisher !== undefined ? (
+                            <div>
+                                <UserVideoComponent streamManager={publisher}/>
+                            </div>
+                        ) : null}
+                        {subscribers.map((sub, i) => (
+                            <UserVideoComponent key={i} streamManager={sub}/>
+                        ))}
+                    </div>
+                </div>
             )}
-
-            {audioEnabled ? (
-              <BsMicFill
-                onClick={handleTurnOffAudio}
-                className={
-                  "w-10 h-10 p-2 bg-gray-800 hover:bg-gray-700 rounded-full cursor-pointer"
-                }
-              />
-            ) : (
-              <BsMicMuteFill
-                onClick={handleTurnOffAudio}
-                className={
-                  "w-10 h-10 p-2 bg-red-700 hover:bg-red-800 rounded-full cursor-pointer"
-                }
-              />
-            )}
-
-            <button
-              className={
-                "bg-red-700 hover:bg-red-800 px-3 py-2 text leading-5 rounded-xl font-semibold text-white"
-              }
-              onClick={handleLeaveSessionClicked}
-            >
-              Leave
-            </button>
-          </div>
-
-          <div
-            className={"flex flex-col max-h-full overflow-y-auto px-2 gap-2"}
-          >
-            {publisher !== undefined ? (
-              <div>
-                <UserVideoComponent streamManager={publisher} />
-              </div>
-            ) : null}
-            {subscribers.map((sub, i) => (
-              <UserVideoComponent key={i} streamManager={sub} />
-            ))}
-          </div>
-        </div>
-      )}
-    </>
-  );
+        </>
+    );
 };
 
 export default VideoChat;

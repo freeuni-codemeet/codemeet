@@ -1,47 +1,57 @@
-import { createContext, useState, useRef } from "react";
-import { ExecuteProps } from "../pages/room/Room";
+import React, {createContext, useState, useRef, PropsWithChildren} from "react";
 import Rustpad from "../rustpad/rustpad";
 
 export interface ExecuteContextProps {
-    stdin: str
-    stdout: str
-    rustpad: Rustpad
-    output_color: str
-    selectedLanguage: str
+    stdin: string
+    stdout: string
+    rustpad: React.MutableRefObject<Rustpad | undefined> | undefined
+    outputColor: string
+    selectedLanguage: string
+    isLoading: boolean
+    setStdin: React.Dispatch<React.SetStateAction<string>>;
+    setStdout: React.Dispatch<React.SetStateAction<string>>;
+    setOutputColor: React.Dispatch<React.SetStateAction<string>>;
+    setSelectedLanguage: React.Dispatch<React.SetStateAction<string>>;
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const ExecuteContext = createContext<ExecuteContextProps>({
   stdin: "",
   stdout: "",
   rustpad: undefined,
-  output_color: "",
+  outputColor: "",
   selectedLanguage: "",
+  isLoading: false,
   setStdin: () => null,
   setStdout: () => null,
   setOutputColor: () => null,
   setSelectedLanguage: () => null,
+  setIsLoading: () => null,
 });
 
 export const ExecuteContextProvider = ({
   children,
 }: PropsWithChildren<{}>) => {
-  const [stdin, setStdin] = useState<str | undefined>("");
-  const [stdout, setStdout] = useState<str | undefined>("");
-  const [output_color, setOutputColor] = useState<str | undefined>("white");
-  const [selectedLanguage, setSelectedLanguage] = useState<str | undefined>("python");
+  const [stdin, setStdin] = useState<string>("");
+  const [stdout, setStdout] = useState<string>("");
+  const [outputColor, setOutputColor] = useState<string>("white");
+  const [selectedLanguage, setSelectedLanguage] = useState<string>("python");
   const rustpad = useRef<Rustpad>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
 
   const value = {
-    stdin,
-    stdout,
-    rustpad,
-    output_color,
-    selectedLanguage,
-    setStdin,
-    setStdout,
-    setOutputColor,
-    setSelectedLanguage,
+    stdin: stdin,
+    stdout: stdout,
+    rustpad: rustpad,
+    outputColor: outputColor,
+    selectedLanguage: selectedLanguage,
+    isLoading: isLoading,
+    setStdin: setStdin,
+    setStdout: setStdout,
+    setOutputColor: setOutputColor,
+    setSelectedLanguage: setSelectedLanguage,
+    setIsLoading: setIsLoading,
   };
 
   return (

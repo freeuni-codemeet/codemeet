@@ -48,7 +48,7 @@ class Rustpad {
   private cursorData: CursorData = { cursors: [], selections: [] };
 
   // Intermittent local editor state
-  private lastValue: string = "";
+  public lastValue: string = "";
   private ignoreChanges: boolean = false;
   private oldDecorations: string[] = [];
 

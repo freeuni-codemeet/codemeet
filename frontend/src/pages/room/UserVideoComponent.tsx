@@ -47,7 +47,7 @@ const UserVideoComponent = ({
         <div className={"group"}>
           <div
             className={
-              "relative border rounded-xl border-sky-700 group-hover:border-2"
+              "relative rounded-xl border-sky-700 group-hover:border-2"
             }
           >
             <video
