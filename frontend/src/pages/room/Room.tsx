@@ -8,6 +8,7 @@ import Executor from "./Executor";
 import axios from "axios";
 import {  ExecuteContext } from "../../context/RoomContext";
 import codeExecutorApi from "../../api/codeExecutor";
+import languageMap from "../../../languages.json";
 
 
 const Room = () => {
@@ -15,12 +16,6 @@ const Room = () => {
   const { sessionId } = useParams();
   const [selectedLanguage, setSelectedLanguage] = useState("python");
 
-  const languageIdMap = {
-    python: 92,
-    java: 62,
-    cpp: 54,
-    c: 48,
-  };
 
   const handleLanguageChange = (event) => {
     setSelectedLanguage(event.target.value);
@@ -39,7 +34,7 @@ const Room = () => {
     try {
       const encoded_code = btoa(rustpad.current.lastValue);
       const encoded_stdin = btoa(stdin);
-      const response = await codeExecutorApi.executeCode(languageIdMap[selectedLanguage], encoded_code, encoded_stdin);
+      const response = await codeExecutorApi.executeCode(languageMap.languages[selectedLanguage], encoded_code, encoded_stdin);
       const id = response.status.id;
       const responseData = (id === 3) ? response.stdout : response.stderr;
       setOutputColor((id === 3) ? "white" : "red-700");
