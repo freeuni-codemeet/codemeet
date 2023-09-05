@@ -16,13 +16,12 @@ const Executor = () => {
         setStdin(event.target.value);
     };
 
-
     return (
         <>
             <div className={"flex flex-col w-1/2"}>
                 <p className={"ml-1 font-semibold"}>Input</p>
                 <textarea
-                    className={`mt-0 w-full flex-1 bg-slate-800 resize-none text-white border border-sky-900 outline-none px-2 rounded-lg`}
+                    className={`w-full flex-1 bg-slate-800 resize-none text-white border border-sky-900 outline-none px-2 rounded-lg`}
                     value={stdin}
                     onChange={handleInputChange}
                     placeholder="Write your input here..."
@@ -33,7 +32,7 @@ const Executor = () => {
                 <div className={"flex w-full flex-1 border border-sky-900 rounded-lg items-center justify-center"}>
                     {!isLoading ?
                         <textarea
-                            className={`w-full flex-1 bg-slate-800 resize-none ${outputColor} focus:outline-none px-2 rounded-lg`}
+                            className={`w-full h-full bg-slate-800 resize-none ${outputColor} focus:outline-none px-2 rounded-lg`}
                             placeholder=""
                             readOnly={true}
                             value={stdout}
