@@ -42,7 +42,7 @@ services:
       - "3478:3478/tcp"
       - "3478:3478/udp"
     env_file:
-      - ./config/prod/openvidu-dev.env
+      - ./config/prod/openvidu.env
     volumes:
       - ./coturn:/run/secrets/coturn
     command:
@@ -72,7 +72,7 @@ services:
     command: uvicorn backend.src.app.app:app --host 0.0.0.0 --port 8080
     network_mode: 'host'
     env_file:
-      - core.env
+      - ./config/prod/core.env
 
   webapp:
     build:
