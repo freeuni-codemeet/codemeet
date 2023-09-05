@@ -41,6 +41,8 @@ const Room = () => {
       let responseData;
       switch (id) {
           case 3:
+            responseData = response.stdout;
+            break;
           case 6:
             responseData = response.compile_output;
             break;
