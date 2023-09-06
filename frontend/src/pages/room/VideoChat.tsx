@@ -19,11 +19,11 @@ const VideoChat = () => {
       ) : (
         <div
           className={
-            "flex flex-col max-h-full bg-slate-800 rounded-xl min-h-full py-3 gap-3"
+            "flex flex-col bg-slate-800 rounded-xl min-h-full py-3 gap-3"
           }
         >
           <div
-            className={"flex flex-col max-h-full overflow-y-auto px-3 gap-3"}
+            className={"flex flex-col overflow-y-auto min-h-0 px-3 gap-3"}
           >
             {publisher !== undefined ? (
               <div>

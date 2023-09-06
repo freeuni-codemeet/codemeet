@@ -26,8 +26,8 @@ const Room = () => {
                 secretToken={state?.secretToken}
               />
             </div>
-            <div className={"flex flex-row flex-1 gap-3 pb-2"}>
-              <div className={"w-[29%]"}>
+            <div className={"flex flex-row flex-1 gap-3 pb-2 min-h-0"}>
+              <div className={"w-[29%] flex"}>
                 <VideoChat />
               </div>
               <div className={"w-[71%] flex flex-col gap-3"}>
