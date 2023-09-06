@@ -11,7 +11,7 @@ const VideoChat = () => {
       {mainStreamManager === undefined ? (
         <div
           className={
-            "flex flex-col max-h-full bg-slate-800 rounded-xl min-h-full py-3 gap-3 justify-center items-center"
+            "flex flex-1 max-h-full bg-slate-800 rounded-xl min-h-full py-3 gap-3 justify-center items-center"
           }
         >
           <Spinner />
